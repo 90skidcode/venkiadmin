@@ -1,7 +1,8 @@
 import React from "react";
 import { useTable, useSortBy, usePagination, useGlobalFilter, useAsyncDebounce } from "react-table";
-
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleLeftIcon ,ChevronDoubleRightIcon ,TrashIcon  } from "@heroicons/react/outline";
+import FetchApi from "../Services/FetchApi";
+
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -30,156 +31,9 @@ function GlobalFilter({
 }
 
 function ProductTable() {
-  const data = React.useMemo(
-    () => [
-      {
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },{
-        name: "Ravi",
-        col2: "ravi.f@gmail.com",
-        col3: "Salem,IN",
-        col4: "20",
-        col5: "#12345",
-        col6: "Rs.12,345.00",
-        col7: "1",
-        col8: "",
-      },
-      {
-        name: "react-table",
-        col2: "rocks",
-      },
-      {
-        name: "whatever",
-        col2: "you want",
-      },
-    ],
-    []
-  );
-
+  const { responceData, loading ,error } = FetchApi('https://jsonplaceholder.typicode.com/posts');
+  console.log(responceData.data);
+  const data = React.useMemo(() => responceData.data, [])
   const columns = React.useMemo(
     () => [
       {
@@ -189,7 +43,7 @@ function ProductTable() {
       },
       {
         Header: "Email",
-        accessor: "col2",
+        accessor: "userId",
       },
       {
         Header: "Location",
@@ -254,16 +108,16 @@ function ProductTable() {
   function deleteData(params) {
     console.log(params);
   }
-
+  
   return (
     <div className="col-span-10 m-5">
       <div className="flex justify-between flex-wrap">
         <div className="text-primary-900 text-3xl font-bold">
-          <h1>Customers ✨</h1>
+          <h1>Customers ✨ </h1>
         </div>
       </div>
-      <div className="bg-white shadow-sm rounded-sm  border border-slate-300 mt-5">
-        <header className="p-4 flex flex-wrap justify-between">
+      <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5">
+        <header className="px-5 py-4 border-b border-gray-100 p-4 flex flex-wrap justify-between">
           <h2 className="text-gray-800 text-base font-semibold justify-items-start">
             All Customers{" "}
             <span className=" text-base font-semibold text-slate-500">150</span>
@@ -389,7 +243,6 @@ function ProductTable() {
         </div>
       </div>
     </div>
-       
     </div>
     </div>
   );
