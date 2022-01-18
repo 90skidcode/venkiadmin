@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
-       <NavSideBar/>
+       <PageContainer/>
         <Routes>
           <Route path="/customer"  element={<ProductTable />} />
           <Route path="/customer/:id"  element={<AddProduct />} />

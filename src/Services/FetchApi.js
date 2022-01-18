@@ -6,12 +6,14 @@ function FetchApi(url) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { 
+   // console.log('Start');
     setLoading(true);
     axios
       .get(url)
       .then((response) => {
         setData(response);
+       // console.log(response);
       })
       .catch((err) => {
         setError(err);
@@ -21,22 +23,9 @@ function FetchApi(url) {
       });
   }, [url]);
 
-  const refetch = () => {
-    setLoading(true);
-    axios
-      .get(url)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+ 
 
-  return { responceData, loading, error, refetch };
+  return { responceData, loading, error };
 }
 
 export default FetchApi;

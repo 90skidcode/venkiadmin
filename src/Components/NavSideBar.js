@@ -15,7 +15,7 @@ function NavSideBar() {
     },
     {
       text: "Orders",
-      path: "/",
+      path: "/customer/1",
       icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
     },
     {
@@ -55,7 +55,7 @@ function NavSideBar() {
         <div className="flex flex-col items-center w-full">
 		
             {menu.map((m) => (
-              <NavLink
+              <NavLink key={Math.random()}
                 to={m.path} 
                 className="flex items-center w-full h-12 px-3 mt-2 cursor-pointer rounded hover:bg-secondary-900 hover:text-white"         >
                 <svg
