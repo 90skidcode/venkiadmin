@@ -1,10 +1,12 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import NavSideBar from "./Components/NavSideBar";
+
 import AddProduct from "./Components/AddProduct";
 import ProductTable from "./Components/ProductTable";
 import PageContainer from "./Components/PageContainer";
+import Dashboard from "./Components/Dashboard";
+import TableList from "./Components/TableList";
 function App() {
   return (
     <Router>
@@ -14,6 +16,9 @@ function App() {
           <Route path="/customer"  element={<ProductTable />} />
           <Route path="/customer/:id"  element={<AddProduct />} />
           <Route path="/table"  element={<PageContainer/>} />
+          <Route path="/list/:type"  element={<TableList/>} />
+          <Route path="/list/:type/:id"  element={<AddProduct/>} />
+          <Route path="/dashboard"  element={<Dashboard/>} />
         </Routes>
       </div>
     </Router>

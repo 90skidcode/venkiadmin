@@ -23,8 +23,6 @@ function FetchApi(url) {
       });
   }, [url]);
 
- 
-
   return { responceData, loading, error };
 }
 
