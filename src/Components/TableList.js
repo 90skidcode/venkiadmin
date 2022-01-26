@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import {
   useTable,
   useSortBy,
@@ -18,12 +18,8 @@ import {
 } from "@heroicons/react/outline";
 import FetchApi from "../Services/FetchApi";
 import { TableJsonHeaderList } from "../JSON/TableJson";
-import { useParams } from "react-router-dom";
-
-function Name() {
-  const { type } = useParams();
-  return type;
-}
+import axios from "axios";
+import { UtilsJson } from "../utils/UtilsJson";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -32,7 +28,6 @@ function GlobalFilter({
 }) {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = React.useState(globalFilter);
-
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
   }, 200);
@@ -54,22 +49,23 @@ function GlobalFilter({
 }
 
 function TableList() {
-  const { responceData } = FetchApi("http://54.88.14.184:8000/category");
+  const { type } = useParams();
+  let { responceData } = FetchApi(type);
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
+  const [deleteCurrent, setDeleteCurrent] = useState();
 
-  function deleteData(params) {
-    setModalPopUpFlag("");
-  }
-
-  function closePopUp() {
+  function ClosePopUp() {
     setModalPopUpFlag("hidden");
+    setDeleteCurrent([]);
   }
+
   const data = React.useMemo(
     () => (responceData ? responceData.data : []),
     [responceData]
   );
-  const { type } = useParams();
+
   const TableColumn = TableJsonHeaderList[type];
+
   const columns = React.useMemo(
     () => (TableColumn ? TableColumn : []),
     [TableColumn]
@@ -99,22 +95,85 @@ function TableList() {
     usePagination
   );
 
+  function DeleteData(params) {
+    setModalPopUpFlag("");
+    setDeleteCurrent(params);
+  }
+
+  function DeleteRequest() {
+    const deleteId = deleteCurrent.original.id;
+    axios
+      .delete(UtilsJson.baseUrl + type + "/" + deleteId)
+      .then((response) => {
+        console.log(response);
+        console.log(responceData);
+        responceData.data.map((e) => (e.id === deleteId ? e.categoryname = "update": e));        
+        console.log(responceData);
+        window.location.reload(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        console.log("End");
+        ClosePopUp();
+      });
+  }
+
+  console.log("render");
+
+  function DeleteModal() {
+    return (
+      <div
+        className={`min-w-screen h-screen animated fadeIn faster  fixed bg-slate-400 bg-opacity-75  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover ${ModalPopUpFlag}`}
+      >
+        <div className="flex">
+          <div className="bg-white rounded-xl shadow-lg justify-center">
+            <div className="text-center p-5 flex-auto justify-center">
+              <h2 className="text-xl font-bold py-4 ">Are you sure?</h2>
+              <p className="text-sm text-gray-500 px-8">
+                Do you really want to delete? This process cannot be undone.
+              </p>
+            </div>
+            <div className="p-3 mt-2 text-center space-x-4 md:block">
+              <button
+                onClick={() => ClosePopUp()}
+                className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => DeleteRequest()}
+                className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="col-span-10 m-5">
         <div className="flex justify-between flex-wrap">
           <div className="text-primary-900 text-3xl font-bold capitalize">
-            <h1>
-              <Name /> ✨{" "}
-            </h1>
+            <h1>{type} ✨ </h1>
           </div>
+          <NavLink key={Math.random()} to={"new"}>
+            <button className="px-6  py-2.5  bg-blue-600  text-white  font-medium  text-xs  leading-tight  uppercase  shadow-md  hover:bg-blue-700 hover:shadow-lg  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0  active:bg-blue-800 active:shadow-lg  transition  duration-150  ease-in-out">
+              Add New
+            </button>
+          </NavLink>
         </div>
         <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5">
           <header className="px-5 py-4 border-b border-gray-100 p-4 flex flex-wrap justify-between">
             <h2 className="text-gray-800 text-base font-semibold justify-items-start capitalize">
-              All <Name />{" "}
-              <span className=" text-base font-semibold text-slate-500">
-                {data.length}
+              All {type}
+              <span className="text-base font-semibold text-slate-500">
+                {"  " + data.length}
               </span>
             </h2>
             <GlobalFilter
@@ -136,7 +195,6 @@ function TableList() {
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >
                       {column.render("Header")}
-
                       <span>
                         {column.isSorted
                           ? column.isSortedDesc
@@ -146,7 +204,6 @@ function TableList() {
                       </span>
                     </th>
                   ))}
-
                   <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
                     {" "}
                     Action{" "}
@@ -179,7 +236,7 @@ function TableList() {
                     })}
 
                     <td className="px-6 py-2 whitespace-nowrap text-slate-500 text-sm  flex flex-row">
-                      <NavLink key={Math.random()} to={row.id}>
+                      <NavLink key={Math.random()} to={row.original.id}>
                         <PencilAltIcon
                           height={15}
                           className=" text-blue-500 cursor-pointer text-left mx-2"
@@ -189,8 +246,7 @@ function TableList() {
                         height={15}
                         className=" text-red-500 cursor-pointer text-left"
                         onClick={() => {
-                          console.log(row);
-                          deleteData(row.id);
+                          DeleteData(row);
                         }}
                         value={""}
                       ></TrashIcon>
@@ -283,32 +339,7 @@ function TableList() {
         </div>
       </div>
 
-      <div
-        className={`min-w-screen h-screen animated fadeIn faster  fixed bg-slate-400 bg-opacity-75  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover ${ModalPopUpFlag}`}
-      >
-        <div className="flex   ">
-          <div className="bg-white rounded-xl shadow-lg justify-center ">
-            <div className="text-center p-5 flex-auto justify-center">
-              <h2 className="text-xl font-bold py-4 ">Are you sure?</h2>
-              <p className="text-sm text-gray-500 px-8">
-                Do you really want to delete? This process cannot be undone
-              </p>
-            </div>
-
-            <div className="p-3  mt-2 text-center space-x-4 md:block">
-              <button
-                onClick={() => closePopUp()}
-                className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button className="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DeleteModal></DeleteModal>
     </>
   );
 }

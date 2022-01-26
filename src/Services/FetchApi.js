@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { UtilsJson } from "../utils/UtilsJson";
 
 function FetchApi(url) {
   const [responceData, setData] = useState(null);
@@ -10,7 +11,7 @@ function FetchApi(url) {
    // console.log('Start');
     setLoading(true);
     axios
-      .get(url)
+      .get(UtilsJson.baseUrl+url)
       .then((response) => {
         setData(response);
        // console.log(response);

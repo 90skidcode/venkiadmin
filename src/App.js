@@ -7,6 +7,7 @@ import ProductTable from "./Components/ProductTable";
 import PageContainer from "./Components/PageContainer";
 import Dashboard from "./Components/Dashboard";
 import TableList from "./Components/TableList";
+import FormFields from "./Components/FormFields";
 function App() {
   return (
     <Router>
@@ -17,7 +18,7 @@ function App() {
           <Route path="/customer/:id"  element={<AddProduct />} />
           <Route path="/table"  element={<PageContainer/>} />
           <Route path="/list/:type"  element={<TableList/>} />
-          <Route path="/list/:type/:id"  element={<AddProduct/>} />
+          <Route path="/list/:type/:id"  element={<FormFields/>} />
           <Route path="/dashboard"  element={<Dashboard/>} />
         </Routes>
       </div>
