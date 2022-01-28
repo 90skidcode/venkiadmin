@@ -18,4 +18,34 @@ export const TableJsonHeaderList = {
       )
     }
   ],
+  franchise:[{
+    Header: "Name",
+    accessor: "franchise_name",
+    className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
+  },
+  {
+    Header: "Address",
+    accessor: "franchise_address",
+  },{
+    Header: "Phone Number",
+    accessor: "franchise_phone",
+  },{
+    Header: "Email",
+    accessor: "franchise_email",
+  }],
+  user:[{
+    Header: "Name",
+    accessor: "name",
+    className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
+  },
+  {
+    Header: "Address",
+    accessor: "address",
+  },{
+    Header: "Phone Number",
+    accessor: "phone",
+  },{
+    Header: "Email",
+    accessor: "email",
+  }]
 };

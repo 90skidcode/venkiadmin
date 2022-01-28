@@ -8,8 +8,7 @@ function DeleteApi(url) {
   const [loadingDeleteData, setLoading] = useState(false);
   const [errorDeleteData, setError] = useState(null);
 
-  useEffect(() => { 
-   console.log('Start');
+  useEffect(() => {
     setLoading(true);
     axios
       .delete(UtilsJson.baseUrl+url)

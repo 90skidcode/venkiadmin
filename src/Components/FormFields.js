@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import PostApi from "../Services/PostApi";
 import PutApi from "../Services/PutApi";
 import FileApi from "../Services/FileApi";
-
+import { FormFieldJson } from "../JSON/FormJson";
 export default function FormFields(props) {
   const { type, id } = useParams();
 
@@ -17,49 +17,7 @@ export default function FormFields(props) {
     [responceData]
   );
 
-  const formFields = [
-    {
-      type: "text",
-      title: "Name",
-      name: "category_name",
-      values: "",
-      class: "col-span-3",
-      require: true,
-    },
-    {
-      type: "text",
-      title: "Description",
-      name: "category_description",
-      values: "",
-      class: "col-span-3",
-      require: true,
-    },
-    {
-      type: "file",
-      title: "Image",
-      name: "category_image",
-      values: "",
-      class: "col-span-12",
-      require: false,
-      multiple:false
-    },
-    {
-      type: "hidden",
-      title: "Status",
-      name: "status",
-      values: 1,
-      class: "col-span-3",
-      require: false,
-    },
-    {
-      type: "hidden",
-      title: "Date",
-      name: "created_at",
-      values: new Date(),
-      class: "col-span-3",
-      require: false,
-    },
-  ];
+  const formFields = FormFieldJson[type];
   const intilizeValue = {};
 
   useEffect(() => {
@@ -130,13 +88,13 @@ export default function FormFields(props) {
           <form method="POST" onSubmit={saveForm}>
             <div className="">
               <div className="flex justify-between flex-wrap">
-                <div className="text-primary-900 text-3xl font-bold">
-                  <h1>Add Customer ✨</h1>
+                <div className="text-primary-900 text-3xl font-bold capitalize">
+                  <h1>Add {type} ✨</h1>
                 </div>
               </div>
               <div className="bg-white shadow-sm rounded-sm  border border-slate-300 mt-5">
                 <header className="px-5 py-4 border-b border-gray-100">
-                  <h2 className="font-semibold text-gray-800">Add Customer</h2>
+                  <h2 className="font-semibold text-gray-800 capitalize">Add {type}</h2>
                 </header>
                 <div className="px-4 py-5 bg-white sm:p-6">
                   <div className="grid grid-cols-12 gap-6">
@@ -161,6 +119,7 @@ export default function FormFields(props) {
                               className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                             />
                           ) : e.type === "select" ? (
+                            
                             <select
                               key={e.name}
                               name={e.name}
@@ -169,7 +128,7 @@ export default function FormFields(props) {
                               onChange={handlechange}
                               autoComplete="off"
                               className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                            >
+                            >{}
                               <option value="">Select from list</option>
                               {e.list.map((item) => (
                                 <option
