@@ -44,15 +44,15 @@ function App() {
             {message.title}
             </p>
             <div className="flex items-center">
-              <p className="text-white opacity-90 text-xs cursor-pointer" onClick={setmessage({...})}><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-</svg></p>
+            
               <button
                 type="button"
-                className="btn-close btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
+                className="btn-close text-sm btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
                 data-mdb-dismiss="toast"
-                aria-label="Close"
-              ></button>
+                aria-label="Close" onClick={()=>setmessage({...message, ['visable']:false})}
+              ><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg></button>
             </div>
           </div>
           <div className="p-3  rounded-b-lg break-words text-white">

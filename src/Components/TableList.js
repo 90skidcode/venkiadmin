@@ -48,19 +48,28 @@ function GlobalFilter({
   );
 }
 
-function TableList() {
+function TableList(props) {
   const { type } = useParams();
+  
+ 
   let { responceData } = FetchApi(type);
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
   const [deleteCurrent, setDeleteCurrent] = useState();
-
+  
   function ClosePopUp() {
     setModalPopUpFlag("hidden");
     setDeleteCurrent([]);
   }
 
+  function setTableData(params) {
+    props.setPageLoader(true);
+    if(responceData){
+      props.setPageLoader(false);
+    }
+    return responceData ? responceData.data : []
+  }
   const data = React.useMemo(
-    () => (responceData ? responceData.data : []),
+    () => setTableData(responceData),
     [responceData]
   );
 
@@ -105,10 +114,7 @@ function TableList() {
     axios
       .delete(UtilsJson.baseUrl + type + "/" + deleteId)
       .then((response) => {
-        console.log(response);
-        console.log(responceData);
         responceData.data.map((e) => (e.id === deleteId ? e.categoryname = "update": e));        
-        console.log(responceData);
         window.location.reload(false);
       })
       .catch((err) => {
@@ -119,8 +125,6 @@ function TableList() {
         ClosePopUp();
       });
   }
-
-  console.log("render");
 
   function DeleteModal() {
     return (
@@ -218,6 +222,7 @@ function TableList() {
               {page.map((row, i) => {
                 prepareRow(row);
                 return (
+                 
                   <tr {...row.getRowProps()}>
                     {row.cells.map((cell) => {
                       return (

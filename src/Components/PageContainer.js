@@ -51,6 +51,7 @@ function PageContainer() {
   ];
     return (
       <div className="col-span-2 flex flex-col h-full p-3  bg-primary-900 text-slate-200 hidden sm:block">
+      
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h2>Venkateshwara</h2>

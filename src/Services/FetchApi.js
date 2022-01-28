@@ -7,14 +7,14 @@ function FetchApi(url) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => { 
-   // console.log('Start');
+  useEffect(() => {
+    // console.log('Start');
     setLoading(true);
     axios
-      .get(UtilsJson.baseUrl+url)
+      .get(UtilsJson.baseUrl + url)
       .then((response) => {
         setData(response);
-       // console.log(response);
+        // console.log(response);
       })
       .catch((err) => {
         setError(err);

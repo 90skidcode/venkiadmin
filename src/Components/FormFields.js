@@ -3,16 +3,14 @@ import { useState, useEffect } from "react";
 import FetchApi from "../Services/FetchApi";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import PostApi from "../Services/PostApi";
+import PutApi from "../Services/PutApi";
+import FileApi from "../Services/FileApi";
 
-export default function FormFields() {
+export default function FormFields(props) {
   const { type, id } = useParams();
-  console.log(
-    "🚀 ~ file: FormFields.js ~ line 9 ~ AddProduct ~ type",
-    type,
-    id
-  );
 
-  var responceData = FetchApi(type + "/" + id);
+  var { responceData } = id !== "new" ? FetchApi(type + "/" + id) : "";
 
   var postDataLists = React.useMemo(
     () => (responceData ? responceData.data : []),
@@ -23,47 +21,59 @@ export default function FormFields() {
     {
       type: "text",
       title: "Name",
-      name: "name",
+      name: "category_name",
       values: "",
       class: "col-span-3",
       require: true,
     },
     {
-      type: "select",
-      title: "Age",
-      name: "age",
+      type: "text",
+      title: "Description",
+      name: "category_description",
       values: "",
+      class: "col-span-3",
+      require: true,
+    },
+    {
+      type: "file",
+      title: "Image",
+      name: "category_image",
+      values: "",
+      class: "col-span-12",
+      require: false,
+      multiple:false
+    },
+    {
+      type: "hidden",
+      title: "Status",
+      name: "status",
+      values: 1,
       class: "col-span-3",
       require: false,
-      server: false,
-      list: [
-        {
-          key: "a",
-          value: "A",
-        },
-        {
-          key: "b",
-          value: "B",
-        },
-        {
-          key: "c",
-          value: "C",
-        },
-      ],
     },
     {
-      type: "select",
-      title: "Cars",
-      name: "car",
-      values: "",
+      type: "hidden",
+      title: "Date",
+      name: "created_at",
+      values: new Date(),
       class: "col-span-3",
-      require: true,
-      server: true,
-      list: [],
+      require: false,
     },
   ];
   const intilizeValue = {};
-  formFields.forEach((item) => (intilizeValue[item.name] = item.values));
+
+  useEffect(() => {
+    if (postDataLists.length || id === "new") {
+      formFields.map(
+        (item) =>
+          (item.values =
+            id === "new" ? item.values : postDataLists[0][item.name])
+      );
+      formFields.forEach((item) => (intilizeValue[item.name] = item.values));
+      setFormValues(intilizeValue);
+    }
+  }, [postDataLists]);
+
   const [formValues, setFormValues] = useState(intilizeValue);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -74,21 +84,35 @@ export default function FormFields() {
     setFormValues({ ...formValues, [name]: value });
   };
 
+  const UploadImage = (e) => {
+    let { name, value } = e.target;
+    props.setPageLoader(true);
+    FileApi(e.target.files[0]).then(result => {
+      setFormValues({ ...formValues, [name.replace('File','')]: result.responceFileData.data['Uploaded Filenames'].toString() });
+      props.setPageLoader(false);
+    });
+
+  };
+
+
   /*To save the form */
   const saveForm = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
     setIsSubmit(true);
+    setFormErrors(validate(formValues));
   };
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setIsSubmit(false);
+      var { responcePostData } =
+        id === "new"
+          ? PostApi(type, formValues)
+          : PutApi(type + "/" + id, formValues);
     }
-  }, [formErrors]);
+  }, [formErrors, formValues, isSubmit]);
 
   /* To validate forms */
-
   const validate = (values) => {
     const errors = {};
     formFields.forEach((element) => {
@@ -116,60 +140,112 @@ export default function FormFields() {
                 </header>
                 <div className="px-4 py-5 bg-white sm:p-6">
                   <div className="grid grid-cols-12 gap-6">
-                    {formFields.map((e) => (
-                      <div className={e.class} key={e.name}>
-                        <label
-                          htmlFor={e.name}
-                          className="block text-sm font-medium text-slate-600"
-                        >
-                          {e.title}
-                        </label>
-                        {e.type === "text" || e.type === "number" ? (
-                          <input
-                            key={e.name}
-                            type={e.type}
-                            name={e.name}
-                            id={e.name}
-                            value={formValues[e.name]}
-                            onChange={handlechange}
-                            autoComplete="off"
-                            className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                          />
-                        ) : (
-                          <select
-                            key={e.name}
-                            name={e.name}
-                            id={e.name}
-                            value={formValues[e.name]}
-                            onChange={handlechange}
-                            autoComplete="off"
-                            className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                    {formFields.map((e) =>
+                      e.type !== "hidden" ? (
+                        <div className={e.class} key={e.name}>
+                          <label
+                            htmlFor={e.name}
+                            className="block text-sm font-medium text-slate-600"
                           >
-                            <option value="">Select from list</option>
-                            {e.list.map((item) => (
-                              <option
-                                key={Math.random()}
-                                value={e.server ? item.id : item.key}
-                              >
-                                {e.server ? item.title : item.value}
-                              </option>
-                            ))}
-                          </select>
-                        )}
-                        <small
-                          id="emailHelp"
-                          className="block mt-1 text-xs text-red-600"
-                        >
-                          {formErrors[e.name]}
-                        </small>
-                      </div>
-                    ))}
+                            {e.title}
+                          </label>
+                          {e.type === "text" || e.type === "number" ? (
+                            <input
+                              key={e.name}
+                              type={e.type}
+                              name={e.name}
+                              id={e.name}
+                              value={formValues[e.name]}
+                              onChange={handlechange}
+                              autoComplete="off"
+                              className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                            />
+                          ) : e.type === "select" ? (
+                            <select
+                              key={e.name}
+                              name={e.name}
+                              id={e.name}
+                              value={formValues[e.name]}
+                              onChange={handlechange}
+                              autoComplete="off"
+                              className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                            >
+                              <option value="">Select from list</option>
+                              {e.list.map((item) => (
+                                <option
+                                  key={Math.random()}
+                                  value={e.server ? item.id : item.key}
+                                >
+                                  {e.server ? item.title : item.value}
+                                </option>
+                              ))}
+                            </select>
+                          ) : e.type === "file" ? (
+                            <div className="flex items-center justify-center w-full">
+                              <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                                <div className="h-full w-full text-center flex flex-col items-center justify-center">
+                                  <div className="flex flex-auto max-h-48 mx-auto">
+                                    {(formValues[e.name])? <img
+                                      className="has-mask h-36 object-center"
+                                      src={`http://ec2-54-88-14-184.compute-1.amazonaws.com:8000/productimg/${formValues[e.name]}`}
+                                      alt="freepik"
+                                    /> :<p className="pointer-none text-gray-500 ">
+                                    <span className="text-sm">
+                                      Drag and drop
+                                    </span>{" "}
+                                    files here <br /> or{" "}
+                                    <di
+                                      href=""
+                                      id=""
+                                      className="text-blue-600 hover:underline"
+                                    >
+                                      select a file
+                                    </di>{" "}
+                                    from your computer
+                                  </p>}
+                                  </div>
+                                  
+                                </div>
+                                <input
+                                  key={e.name+"File"}
+                                  type='file'
+                                  name={e.name+"File"}
+                                  id={e.name}                               
+                                  autoComplete="off"
+                                  className="hidden"
+                                  onChange={UploadImage}
+
+                                />
+                                <input
+                                  key={e.name}
+                                  type='text'
+                                  name={e.name}                                 
+                                  value={formValues[e.name]}
+                                  autoComplete="off"
+                                  className="hidden"                                  
+                                />
+                              </label>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          <small
+                            id="emailHelp"
+                            className="block mt-1 text-xs text-red-600"
+                          >
+                            {formErrors[e.name]}
+                          </small>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )}
                   </div>
                 </div>
                 <div className="px-3 py-2 bg-gray-50 text-right sm:px-6">
                   <NavLink
                     className="px-6  py-2.5 mx-2  bg-red-600  text-white  font-medium  text-xs  leading-tight  uppercase  shadow-md  hover:bg-red-700 hover:shadow-lg  focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0  active:bg-red-800 active:shadow-lg  transition  duration-150  ease-in-out"
-                    to={"/list/"+type+"/"}
+                    to={"/list/" + type + "/"}
                   >
                     Back{" "}
                   </NavLink>
