@@ -10,7 +10,7 @@ import FormFields from "./Components/FormFields";
 import { useState } from "react";
 function App() {
   const [pageLoader, setPageLoader] = useState(false);
-  const [message, setmessage] = useState({class:'bg-blue-600',visable:true, title:'Error', body:'Please try again'});
+  const [message, setmessage] = useState({class:'bg-blue-600',visable:false, title:'Error', body:'Please try again'});
   return (
     <Router>
       <div
