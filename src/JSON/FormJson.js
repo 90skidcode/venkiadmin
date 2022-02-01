@@ -1541,11 +1541,18 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: true,
     } ,{
+      type: "password",
+      title: "Password",
+      name: "password",
+      values: "",
+      class: "col-span-3",
+      require: true,
+    } ,{
       type: "text",
       title: "Address",
-      name: "franchise_address",
+      name: "address",
       values: "",
-      class: "col-span-6",
+      class: "col-span-9",
       require: true,
     },
     {

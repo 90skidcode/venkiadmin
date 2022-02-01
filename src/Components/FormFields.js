@@ -63,10 +63,13 @@ export default function FormFields(props) {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setIsSubmit(false);
-      var { responcePostData } =
-        id === "new"
-          ? PostApi(type, formValues)
-          : PutApi(type + "/" + id, formValues);
+    
+        if(id === "new"){
+          PostApi(type, formValues, props)
+        }else{
+          PutApi(type + "/" + id, formValues)
+        }
+         
     }
   }, [formErrors, formValues, isSubmit]);
 
@@ -107,7 +110,7 @@ export default function FormFields(props) {
                           >
                             {e.title}
                           </label>
-                          {e.type === "text" || e.type === "number" ? (
+                          {e.type === "text" || e.type === "number"|| e.type === "password" ? (
                             <input
                               key={e.name}
                               type={e.type}

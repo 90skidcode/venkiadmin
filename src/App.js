@@ -10,7 +10,7 @@ import FormFields from "./Components/FormFields";
 import { useState } from "react";
 function App() {
   const [pageLoader, setPageLoader] = useState(false);
-  const [message, setmessage] = useState({class:'bg-blue-600',visable:false, title:'Error', body:'Please try again'});
+  const [message, setMessage] = useState({class:'bg-blue-600',visable:false, title:'Error', body:'Please try again'});
   return (
     <Router>
       <div
@@ -31,7 +31,7 @@ function App() {
       </div>
       <div className={`flex flex-row justify-end h-screen absolute w-full ${message.visable ? '':'hidden'}`}>
         <div
-          className={`${message.class}  h-24 m-2  right-0 shadow-lg  w-96 max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3`}
+          className={`${message.class}  h-24 m-2  right-0 shadow-lg  max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3`}
           id="static-example"
           role="alert"
           aria-live="assertive"
@@ -47,10 +47,10 @@ function App() {
             
               <button
                 type="button"
-                className="btn-close text-sm btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
+                className="btn-close text-xs btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
                 data-mdb-dismiss="toast"
-                aria-label="Close" onClick={()=>setmessage({...message, ['visable']:false})}
-              ><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                aria-label="Close" onClick={()=>setMessage({...message, ['visable']:false})}
+              ><svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg></button>
             </div>
@@ -79,6 +79,8 @@ function App() {
               <PageContainer
                 setPageLoader={setPageLoader}
                 pageLoader={pageLoader}
+                setMessage={setMessage}
+                message={message}
               />
             }
           />
@@ -88,6 +90,8 @@ function App() {
               <TableList
                 setPageLoader={setPageLoader}
                 pageLoader={pageLoader}
+                setMessage={setMessage}
+                message={message}
               />
             }
           />
@@ -97,6 +101,8 @@ function App() {
               <FormFields
                 setPageLoader={setPageLoader}
                 pageLoader={pageLoader}
+                setMessage={setMessage}
+                message={message}
               />
             }
           />
