@@ -1,4 +1,4 @@
-
+import { UtilsJson } from "../utils/UtilsJson";
 export const TableJsonHeaderList = {
   category: [
     {
@@ -14,7 +14,7 @@ export const TableJsonHeaderList = {
       Header: "Image",
       accessor: "category_image",  
       Cell: ({ cell }) => (
-        <img width="50" height="50" alt={cell.row.values.category_image} src={"http://ec2-54-88-14-184.compute-1.amazonaws.com:8000/productimg/"+cell.row.values.category_image}/>
+        <img width="50" height="50" alt={cell.row.values.category_image} src={UtilsJson.baseUrl+"productimg/"+cell.row.values.category_image}/>
       )
     }
   ],
@@ -35,17 +35,17 @@ export const TableJsonHeaderList = {
   }],
   user:[{
     Header: "Name",
-    accessor: "name",
+    accessor: "user_name",
     className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
   },
   {
     Header: "Address",
-    accessor: "address",
+    accessor: "user_address",
   },{
     Header: "Phone Number",
-    accessor: "phone",
+    accessor: "user_phone",
   },{
     Header: "Email",
-    accessor: "email",
+    accessor: "user_email",
   }]
 };

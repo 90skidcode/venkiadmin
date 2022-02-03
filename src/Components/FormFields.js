@@ -7,9 +7,9 @@ import PostApi from "../Services/PostApi";
 import PutApi from "../Services/PutApi";
 import FileApi from "../Services/FileApi";
 import { FormFieldJson } from "../JSON/FormJson";
+import { UtilsJson } from "../utils/UtilsJson";
 export default function FormFields(props) {
   const { type, id } = useParams();
-
   var { responceData } = id !== "new" ? FetchApi(type + "/" + id) : "";
 
   var postDataLists = React.useMemo(
@@ -149,7 +149,7 @@ export default function FormFields(props) {
                                   <div className="flex flex-auto max-h-48 mx-auto">
                                     {(formValues[e.name])? <img
                                       className="has-mask h-36 object-center"
-                                      src={`http://ec2-54-88-14-184.compute-1.amazonaws.com:8000/productimg/${formValues[e.name]}`}
+                                      src={`${UtilsJson.baseUrl}productimg/${formValues[e.name]}`}
                                       alt="freepik"
                                     /> :<p className="pointer-none text-gray-500 ">
                                     <span className="text-sm">

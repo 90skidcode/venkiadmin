@@ -130,7 +130,6 @@ function ProductTable() {
   );
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
   function deleteData(params) {
-    console.log(params);
     setModalPopUpFlag("");
   }
 
