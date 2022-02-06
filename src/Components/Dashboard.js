@@ -91,7 +91,6 @@ export const dataD = {
 function Dashboard() {
   return (
     <div className=" grid grid-cols-12 col-span-10 justify-evenly">
-     
       <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5  col-span-4 ">
         <div className="py-3 px-5 text-slate-600">Bar chart</div>
         <Bar height={248} options={options} data={data} />
