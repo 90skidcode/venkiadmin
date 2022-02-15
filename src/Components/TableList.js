@@ -20,6 +20,7 @@ import FetchApi from "../Services/FetchApi";
 import { TableJsonHeaderList } from "../JSON/TableJson";
 import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
+import PageContainer from "./PageContainer";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -51,11 +52,9 @@ function GlobalFilter({
 function TableList(props) {
   const { type } = useParams();
   
- 
   let { responceData } = FetchApi(type);
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
   const [deleteCurrent, setDeleteCurrent] = useState();
-  
   function ClosePopUp() {
     setModalPopUpFlag("hidden");
     setDeleteCurrent([]);
@@ -160,17 +159,20 @@ function TableList(props) {
   }
 
   return (
-    <>
+    <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
+      <PageContainer></PageContainer>
       <div className="col-span-10 m-5">
         <div className="flex justify-between flex-wrap">
           <div className="text-primary-900 text-3xl font-bold capitalize">
             <h1>{type} ✨ </h1>
-          </div>
-          <NavLink key={Math.random()} to={"new"}>
+          </div>{
+            type !== 'settings' ? <NavLink key={Math.random()} to={"new"}>
             <button className="px-6  py-2.5  bg-blue-600  text-white  font-medium  text-xs  leading-tight  uppercase  shadow-md  hover:bg-blue-700 hover:shadow-lg  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0  active:bg-blue-800 active:shadow-lg  transition  duration-150  ease-in-out">
               Add New
             </button>
-          </NavLink>
+          </NavLink> : ''
+          }
+          
         </div>
         <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5">
           <header className="px-5 py-4 border-b border-gray-100 p-4 flex flex-wrap justify-between">
@@ -241,7 +243,7 @@ function TableList(props) {
                     })}
 
                     <td className="px-6 py-2 whitespace-nowrap text-slate-500 text-sm  flex flex-row">
-                      <NavLink key={Math.random()} to={row.original.id}>
+                      <NavLink key={Math.random()} to={type !== 'product' ? row.original.id  : row.original.product_code}>
                         <PencilAltIcon
                           height={15}
                           className=" text-blue-500 cursor-pointer text-left mx-2"
@@ -343,9 +345,8 @@ function TableList(props) {
           </div>
         </div>
       </div>
-
       <DeleteModal></DeleteModal>
-    </>
+    </div>
   );
 }
 

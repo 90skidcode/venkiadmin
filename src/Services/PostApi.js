@@ -1,25 +1,29 @@
 import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
-
-function PostApi(url,data,props) {
-  console.log(props);
+async function PostApi(url,data,props,sucessMessage,page) {
   let responcePostData = [];
   let loadingPost = true;
   let errorPost = null;
-
-  axios
+try{
+  await axios
     .post(UtilsJson.baseUrl + url,data)
     .then((response) => {
       responcePostData = response;
-      props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:'Record Added Successfully'});
+      if(page != 'login')
+      props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:sucessMessage});
+
     })
     .catch((err) => {
       errorPost = err;
+      console.log("er");
       props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Please try again !!'});
     })
     .finally(() => {
       loadingPost = false;
     });
+  }catch(e){
+    errorPost = e;
+  }
 
   return { responcePostData, loadingPost, errorPost };
 }

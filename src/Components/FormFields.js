@@ -6,11 +6,22 @@ import { useParams } from "react-router-dom";
 import PostApi from "../Services/PostApi";
 import PutApi from "../Services/PutApi";
 import FileApi from "../Services/FileApi";
+import GetApi from "../Services/GetApi";
 import { FormFieldJson } from "../JSON/FormJson";
 import { UtilsJson } from "../utils/UtilsJson";
+import PageContainer from "./PageContainer";
 export default function FormFields(props) {
   const { type, id } = useParams();
-  var { responceData } = id !== "new" ? FetchApi(type + "/" + id) : "";
+  var { responceData } = id !== "new" ? type === 'settings' ? FetchApi(type) :  FetchApi(type + "/" + id) : "";
+  const [categoryList, setcategoryList] = useState([]);
+ 
+  useEffect(() => {
+  if(type === "product") {   
+    GetApi('category').then((e)=>{
+      setcategoryList(e.responceData.data);
+    }); 
+  } },[])
+
 
   var postDataLists = React.useMemo(
     () => (responceData ? responceData.data : []),
@@ -52,7 +63,6 @@ export default function FormFields(props) {
 
   };
 
-
   /*To save the form */
   const saveForm = (e) => {
     e.preventDefault();
@@ -63,13 +73,11 @@ export default function FormFields(props) {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setIsSubmit(false);
-    
         if(id === "new"){
-          PostApi(type, formValues, props)
+          PostApi(type, formValues, props , 'Record Add Successfully','form')
         }else{
-          PutApi(type + "/" + id, formValues)
+          PutApi(type + "/" + id, formValues,props , 'Record Updated Sucessfully')
         }
-         
     }
   }, [formErrors, formValues, isSubmit]);
 
@@ -85,7 +93,8 @@ export default function FormFields(props) {
   };
 
   return (
-    <>
+    <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
+      <PageContainer></PageContainer>
       <div className="col-span-10">
         <div className="m-5">
           <form method="POST" onSubmit={saveForm}>
@@ -133,12 +142,17 @@ export default function FormFields(props) {
                               className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                             >{}
                               <option value="">Select from list</option>
-                              {e.list.map((item) => (
+                              {(e.server) ? categoryList.map((item) => (<option
+                                  key={Math.random()}
+                                  value={item.category_no}
+                                >
+                                  {item.category_name }
+                                </option>)) :e.list.map((item) => (
                                 <option
                                   key={Math.random()}
-                                  value={e.server ? item.id : item.key}
+                                  value={ item.key}
                                 >
-                                  {e.server ? item.title : item.value}
+                                  { item.value}
                                 </option>
                               ))}
                             </select>
@@ -223,6 +237,6 @@ export default function FormFields(props) {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }

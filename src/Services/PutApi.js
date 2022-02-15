@@ -1,25 +1,31 @@
 import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 
-function PutApi(url,data) {
+function PutApi(url,data,props, successMessage) {
   let responcePostData = [];
   let loadingPost = false;
   let errorPost = null;
 
   // console.log('Start');
   loadingPost = true;
+  try{
   axios
     .put(UtilsJson.baseUrl + url,data)
     .then((response) => {
       responcePostData = response;
       console.log(response);
+      props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:successMessage});
     })
     .catch((err) => {
       errorPost = err;
+      props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Please try again !!'});
     })
     .finally(() => {
       loadingPost = false;
     });
+  }catch(e){
+    errorPost = e;
+  }
 
   return { responcePostData, loadingPost, errorPost };
 }
