@@ -29,9 +29,9 @@ export default function LoginPage(props) {
   };
 
   return (
-    <>
-      <div className="min-h-full w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+    <div className="flex justify-center">
+      <div className="min-h-full w-full h-screen bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full p-10 bg-slate-100 space-y-8 rounded-sm">
           <div>
             <img
               className="mx-auto h-12 w-auto"
@@ -99,6 +99,6 @@ export default function LoginPage(props) {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }
