@@ -175,26 +175,29 @@ export const TableJsonHeaderList = {
     {
       Header: "Price",
       accessor: "product_price",
+      Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_price).toFixed(2) )
     },
     {
       Header: "Sale Price",
       accessor: "product_sales_price",
+      Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_sales_price).toFixed(2))
     },
     {
       Header: "Visible",
       accessor: "visible",
       Cell: ({ cell }) =>
       cell.row.values.visible ? (
-          <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
             Visable
           </span>
         ) : (
-          <span class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
             Visable
           </span>
         ),
     },
-  ], settings: [
+  ], 
+  settings: [
     {
       Header: "Email",
       accessor: "client_email",
@@ -209,6 +212,56 @@ export const TableJsonHeaderList = {
       Header: "Address",
       accessor: "client_address",
     },
-  ]
+  ],banner:[ {
+    Header: "Image",
+    accessor: "banner_image",
+    Cell: ({ cell }) => (
+      <img
+        width="50"
+        height="50"
+        alt={cell.row.values.banner_image}
+        src={
+          UtilsJson.baseUrl + "productimg/" + cell.row.values.banner_image
+        }
+      />
+    ),
+  }, {
+    Header: "Status",
+    accessor: "status",
+    Cell: ({ cell }) =>
+    cell.row.values.status ? (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          Visable
+        </span>
+      ) : (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+          Hidden
+        </span>
+      ),
+  },],
+  social:[ {
+    Header: "Name",
+    accessor: "social_media_name",
+    className:
+      "px-6 py-2 whitespace-nowrap text-slate-900 text-sm cursor-pointer",
+  },
+  {
+    Header: "Link",
+    accessor: "social_link",
+  },
+  {
+    Header: "Status",
+    accessor: "status",
+    Cell: ({ cell }) =>
+    cell.row.values.status ? (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          Visable
+        </span>
+      ) : (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+          Hidden
+        </span>
+      ),
+  }]
 
 };

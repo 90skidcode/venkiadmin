@@ -51,7 +51,6 @@ function GlobalFilter({
 
 function TableList(props) {
   const { type } = useParams();
-  
   let { responceData } = FetchApi(type);
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
   const [deleteCurrent, setDeleteCurrent] = useState();
@@ -68,9 +67,12 @@ function TableList(props) {
     return responceData ? responceData.data : []
   }
   const data = React.useMemo(
-    () => setTableData(responceData),
+    () =>  setTableData(responceData),
     [responceData]
   );
+
+
+  
 
   const TableColumn = TableJsonHeaderList[type];
 
@@ -178,7 +180,7 @@ function TableList(props) {
           <header className="px-5 py-4 border-b border-gray-100 p-4 flex flex-wrap justify-between">
             <h2 className="text-gray-800 text-base font-semibold justify-items-start capitalize">
               All {type}
-              <span className="text-base font-semibold text-slate-500">
+              <span className="text-base font-semibold text-slate-500">                
                 {"  " + data.length}
               </span>
             </h2>
@@ -188,6 +190,7 @@ function TableList(props) {
               setGlobalFilter={setGlobalFilter}
             />
           </header>
+         
           <table
             className="min-w-full divide-y divide-gold-600"
             {...getTableProps()}
@@ -221,6 +224,7 @@ function TableList(props) {
               className="bg-white divide-y divide-gray-200"
               {...getTableBodyProps()}
             >
+         
               {page.map((row, i) => {
                 prepareRow(row);
                 return (

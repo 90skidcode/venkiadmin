@@ -60,7 +60,7 @@ function App() {
                 className="btn-close text-xs btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
                 data-mdb-dismiss="toast"
                 aria-label="Close"
-                onClick={() => setMessage({ ...message, ["visable"]: false })}
+                onClick={() => setMessage({ ...message, visable: false })}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
