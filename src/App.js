@@ -124,6 +124,7 @@ function App() {
           }
         />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={<Dashboard />} />
       </Routes>
     </Router>
   );

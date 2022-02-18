@@ -6,14 +6,12 @@ function PutApi(url,data,props, successMessage) {
   let loadingPost = false;
   let errorPost = null;
 
-  // console.log('Start');
   loadingPost = true;
   try{
   axios
     .put(UtilsJson.baseUrl + url,data)
     .then((response) => {
       responcePostData = response;
-      console.log(response);
       props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:successMessage});
     })
     .catch((err) => {

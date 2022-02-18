@@ -95,7 +95,7 @@ export default function FormFields(props) {
   return (
     <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
       <PageContainer></PageContainer>
-      <div className="col-span-10">
+      <div className="col-span-12 sm:col-span-10 ">
         <div className="m-5">
           <form method="POST" onSubmit={saveForm}>
             <div className="">
@@ -109,7 +109,7 @@ export default function FormFields(props) {
                   <h2 className="font-semibold text-gray-800 capitalize">Add {type}</h2>
                 </header>
                 <div className="px-4 py-5 bg-white sm:p-6">
-                  <div className="grid grid-cols-12 gap-6">
+                  <div className="sm:grid sm:grid-cols-12 gap-6">
                     {formFields.map((e) =>
                       e.type !== "hidden" ? (
                         <div className={e.class} key={e.name}>

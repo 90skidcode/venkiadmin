@@ -1,6 +1,7 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import PostApi from "../Services/PostApi";
+import { UtilsJson } from "../utils/UtilsJson";
 import { useNavigate } from "react-router-dom";
 export default function LoginPage(props) {
   localStorage.clear();
@@ -35,7 +36,7 @@ export default function LoginPage(props) {
           <div>
             <img
               className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+              src={UtilsJson.baseUrl + "productimg/"+"SVS.png"}
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

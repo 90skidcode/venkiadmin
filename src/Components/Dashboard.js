@@ -12,6 +12,8 @@ import {
 import { Bar, Doughnut} from "react-chartjs-2";
 import { FastForwardIcon } from "@heroicons/react/outline";
 
+import PageContainer from "./PageContainer";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -89,7 +91,8 @@ export const dataD = {
   };
 
 function Dashboard() {
-  return (
+  return ( <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
+  <PageContainer></PageContainer>
     <div className="col-span-10 flex flex-row  justify-evenly">
       <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5  col-span-4 ">
         <div className="py-3 px-5 text-slate-600">Bar chart</div>
@@ -103,6 +106,7 @@ function Dashboard() {
         <div className="py-3 px-5 text-slate-600">Bar chart</div>
         <Doughnut height={248} data={dataD} />
       </div>
+    </div>
     </div>
   );
 }

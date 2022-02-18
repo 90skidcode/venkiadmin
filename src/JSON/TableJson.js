@@ -101,7 +101,7 @@ export const TableJsonHeaderList = {
       className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
     },
     {
-      Header: "D elivery Address",
+      Header: "Delivery Address",
       accessor: "delivery_address",
     },
     {

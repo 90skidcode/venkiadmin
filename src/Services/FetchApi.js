@@ -3,7 +3,7 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 
 function FetchApi(url) {
-  
+  console.log(url);
   const [responceData, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

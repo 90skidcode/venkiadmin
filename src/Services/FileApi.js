@@ -25,7 +25,6 @@ async function FileApi(data) {
     .finally(() => {
       loadingFile = false;
     });
-    console.log("🚀 ~ file: FileApi.js ~ line 20 ~ .then ~ responceFileData", responceFileData)
   return { responceFileData, loadingFile, errorFile };
 }
 
