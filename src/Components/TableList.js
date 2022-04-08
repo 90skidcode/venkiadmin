@@ -69,7 +69,6 @@ function TableList(props) {
     if (responceData) {
       props.setPageLoader(false);
     }
-
     return responceData ? responceData.data : [];
   }
   const data = React.useMemo(() => setTableData(responceData), [responceData]);
@@ -166,6 +165,7 @@ function TableList(props) {
     setOpen(true);
     GetApi(type + "/" + orderId).then((data) => {
       setorderDetails(data.responceData);
+      console.log(orderDetails);
     });
   }
 
@@ -256,6 +256,7 @@ function TableList(props) {
                     })}
 
                     <td className="px-6 py-2 whitespace-nowrap text-slate-500 text-sm  flex flex-row">
+                     {console.log(type,row.original.order_id,row.original.id)}
                       <NavLink
                         key={Math.random()}
                         to={
@@ -263,6 +264,8 @@ function TableList(props) {
                             ? row.original.product_code
                               ? row.original.product_code
                               : ""
+                            : type === "order"
+                            ? (typeof(row.original.order_id) != 'undefined') ? row.original.order_id : ""
                             : row.original.id
                         }
                       >
@@ -416,7 +419,7 @@ function TableList(props) {
             >
               <div
                 id="section-to-print"
-                className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-[80%]  sm:w-full"
+                className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-[80%]"
               >
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   {typeof orderDetails.data != "undefined" ? (
@@ -465,11 +468,11 @@ function TableList(props) {
                               placeholder="Billing company name"
                               x-model="billing.name"
                             >
-                              {orderDetails.data[0].customer_info[0]
-                                .customer_fname +
-                                " " +
-                                orderDetails.data[0].customer_info[0]
-                                  .customer_lname}
+                              {
+                                JSON.parse(
+                                  orderDetails.data[0].delivery_address
+                                ).customer_addr_name
+                              }
                             </div>
                             <div
                               className="mb-1 bg-gray-200 appearance-none  rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
@@ -478,7 +481,11 @@ function TableList(props) {
                               placeholder="Billing company address"
                               x-model="billing.address"
                             >
-                              {orderDetails.data[0].delivery_address}
+                              {
+                                JSON.parse(
+                                  orderDetails.data[0].delivery_address
+                                ).customer_addr_address
+                              }
                             </div>
                             <div
                               className="mb-1 bg-gray-200 appearance-none  rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
@@ -488,8 +495,9 @@ function TableList(props) {
                               x-model="billing.extra"
                             >
                               {
-                                orderDetails.data[0].customer_info[0]
-                                  .customer_phone
+                                JSON.parse(
+                                  orderDetails.data[0].delivery_address
+                                ).customer_addr_phone
                               }
                             </div>
                           </div>
@@ -564,45 +572,52 @@ function TableList(props) {
                             </p>
                           </div>
                         </div>
+                        {console.log(
+                          JSON.parse(orderDetails.data[0].product_id)
+                        )}
+                        {JSON.parse(orderDetails.data[0].product_id).map(
+                          (l) => (
+                            <div
+                              key={Math.random()}
+                              className="flex -mx-1 border-b py-2 items-start"
+                            >
+                              <div className="flex-1 px-1">
+                                <p className="text-gray-800 uppercase tracking-wide text-sm ">
+                                  {l.product_info[0].product_name}
+                                </p>
+                              </div>
 
-                        {orderDetails.data[0].product_info.map((l) => (
-                          <div
-                            key={Math.random()}
-                            className="flex -mx-1 border-b py-2 items-start"
-                          >
-                            <div className="flex-1 px-1">
-                              <p className="text-gray-800 uppercase tracking-wide text-sm ">
-                                {l.product_name}
-                              </p>
-                            </div>
+                              <div className="px-1 w-20 text-right">
+                                <p className="text-gray-800 uppercase tracking-wide text-sm ">
+                                  {l.quantity}
+                                </p>
+                              </div>
 
-                            <div className="px-1 w-20 text-right">
-                              <p className="text-gray-800 uppercase tracking-wide text-sm ">
-                                {l.product_quantity}
-                              </p>
-                            </div>
+                              <div className="px-1 w-32 text-right">
+                                <p className="leading-none">
+                                  <span className="block uppercase tracking-wide text-sm  text-gray-800">
+                                    Rs.{" "}
+                                    {Number(
+                                      l.product_info[0].product_sales_price
+                                    ).toFixed(2)}
+                                  </span>
+                                </p>
+                              </div>
 
-                            <div className="px-1 w-32 text-right">
-                              <p className="leading-none">
-                                <span className="block uppercase tracking-wide text-sm  text-gray-800">
-                                  {l.product_sales_price}
-                                </span>
-                              </p>
+                              <div className="px-1 w-32 text-right">
+                                <p className="leading-none">
+                                  <span className="block uppercase tracking-wide text-sm  text-gray-800">
+                                    Rs.
+                                    {(Number(l.quantity),
+                                    Number(
+                                      l.product_info[0].product_sales_price
+                                    )).toFixed(2)}
+                                  </span>
+                                </p>
+                              </div>
                             </div>
-
-                            <div className="px-1 w-32 text-right">
-                              <p className="leading-none">
-                                <span className="block uppercase tracking-wide text-sm  text-gray-800">
-                                  Rs.
-                                  {(
-                                    Number(l.product_quantity) *
-                                    Number(l.product_sales_price)
-                                  ).toFixed(2)}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        ))}
+                          )
+                        )}
 
                         <div className="py-2 ml-auto mt-5 w-full sm:w-2/4 lg:w-1/4">
                           <div className="flex justify-between mb-3 hidden">
@@ -614,7 +629,7 @@ function TableList(props) {
                                 className="text-gray-800 font-medium"
                                 x-html="netTotal"
                               >
-                                ₹NaN
+                                ₹
                               </div>
                             </div>
                           </div>
@@ -629,7 +644,7 @@ function TableList(props) {
                                   className="text-xl text-gray-800 font-bold"
                                   x-html="netTotal"
                                 >
-                                  Rs.
+                                  ₹ 
                                   {Number(
                                     orderDetails.data[0].order_amount
                                   ).toFixed(2)}

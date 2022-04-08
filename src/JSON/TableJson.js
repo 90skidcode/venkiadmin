@@ -99,10 +99,17 @@ export const TableJsonHeaderList = {
       Header: "Customer Name",
       accessor: "customer_id",
       className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
+      Cell: ({ cell }) =>cell.row.values.delivery_address ? (
+
+        <h1>{(JSON.parse(cell.row.values.delivery_address).customer_addr_name)}</h1>
+      ) : ""
     },
     {
-      Header: "Delivery Address",
+      Header: "Delivery Pincode",
       accessor: "delivery_address",
+      Cell: ({ cell }) =>cell.row.values.delivery_address ? (
+        <h1>{(JSON.parse(cell.row.values.delivery_address).customer_addr_pincode)}</h1>
+      ) : ""
     },
     {
       Header: "Payment Mode",
@@ -119,7 +126,7 @@ export const TableJsonHeaderList = {
     {
       Header: "Order Status",
       accessor: "order_status",
-    },
+    }
   ],
   branch: [
     {
@@ -212,7 +219,8 @@ export const TableJsonHeaderList = {
       Header: "Address",
       accessor: "client_address",
     },
-  ],banner:[ {
+  ],
+  banner:[ {
     Header: "Image",
     accessor: "banner_image",
     Cell: ({ cell }) => (
@@ -238,7 +246,7 @@ export const TableJsonHeaderList = {
           Hidden
         </span>
       ),
-  },],
+  }],
   social:[ {
     Header: "Name",
     accessor: "social_media_name",
@@ -262,6 +270,24 @@ export const TableJsonHeaderList = {
           Hidden
         </span>
       ),
+  }],settingPincode:[ {
+    Header: "Pincode",
+    accessor: "valid_pincode",
+    className:
+      "px-6 py-2 whitespace-nowrap text-slate-900 text-sm cursor-pointer",
+  }, 
+  {
+    Header: "Status",
+    accessor: "status",
+    Cell: ({ cell }) =>
+    cell.row.values.status ? (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          Enable
+        </span>
+      ) : (
+        <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+          Disable
+        </span>
+      ),
   }]
-
 };

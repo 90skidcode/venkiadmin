@@ -3,7 +3,7 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 
 function FetchApi(url) {
-  console.log(url);
+  
   const [responceData, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,7 +13,10 @@ function FetchApi(url) {
     axios
       .get(UtilsJson.baseUrl + url)
       .then((response) => {
+        console.log("🚀 ~ file: FetchApi.js ~ line 17 ~ .then ~ response", response)
         setData(response);
+        
+        
       })
       .catch((err) => {
         setError(err);

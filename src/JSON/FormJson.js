@@ -1,4 +1,4 @@
-import GetApi from "../Services/GetApi";
+
 export const FormFieldJson = {
   category: [
     {
@@ -1579,7 +1579,8 @@ export const FormFieldJson = {
       values: "",
       class: "col-span-3",
       require: true,
-    },{
+    },
+    {
       type: "text",
       title: "Last Name",
       name: "customer_lname",
@@ -3125,7 +3126,7 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: true,
       server: true,
-      list: 'category'
+      list: "category",
     },
     {
       type: "number",
@@ -3142,21 +3143,24 @@ export const FormFieldJson = {
       values: "",
       class: "col-span-3",
       require: false,
-    },{
+    },
+    {
       type: "number",
       title: "Quantity",
       name: "product_quantity",
       values: "",
       class: "col-span-3",
       require: false,
-    },{
+    },
+    {
       type: "hidden",
       title: "Quantity",
       name: "attribute_id",
       values: "",
       class: "col-span-3",
       require: false,
-    },{
+    },
+    {
       type: "select",
       title: "Visible",
       name: "visible",
@@ -3164,13 +3168,16 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: false,
       server: false,
-      list: [ {
-        key: "V",
-        value: "Visable",
-      }, {
-        key: "H",
-        value: "Hide",
-      }]
+      list: [
+        {
+          key: "V",
+          value: "Visable",
+        },
+        {
+          key: "H",
+          value: "Hide",
+        },
+      ],
     },
     {
       type: "text",
@@ -3179,14 +3186,16 @@ export const FormFieldJson = {
       values: "",
       class: "col-span-3",
       require: true,
-    },{
+    },
+    {
       type: "text",
       title: "Description",
       name: "product_description",
       values: "",
       class: "col-span-12",
       require: true,
-    },{
+    },
+    {
       type: "file",
       title: "Product Image",
       name: "product_img",
@@ -3210,7 +3219,8 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: false,
     },
-  ], settings: [
+  ],
+  settings: [
     {
       type: "text",
       title: "Email",
@@ -3218,106 +3228,165 @@ export const FormFieldJson = {
       values: "",
       class: "col-span-3",
       require: true,
-    },{
+    },
+    {
       type: "text",
       title: "Phone",
       name: "client_phone",
       values: "",
       class: "col-span-3",
       require: true,
-    },{
+    },
+    {
       type: "text",
       title: "Address",
       name: "client_address",
       values: "",
       class: "col-span-6",
       require: true,
-    },{
+    },
+    {
       type: "text",
       title: "Adout Us",
       name: "aboutus",
       values: "",
       class: "col-span-12",
       require: true,
-    },{
+    },
+    {
       type: "file",
       title: "Logo",
       name: "site_logo",
       values: "",
       class: "col-span-12",
       require: true,
-    },{
+    },
+    {
       type: "hidden",
       title: "Status",
       name: "status",
       values: 1,
       class: "col-span-3",
       require: false,
-    },{
+    },
+    {
       type: "hidden",
       title: "Date",
       name: "created_at",
       values: new Date(),
       class: "col-span-3",
       require: false,
-    }
-  ],banner : [{
-    type: "file",
-    title: "Banner Image",
-    name: "banner_image",
+    },
+  ],
+  banner: [
+    {
+      type: "file",
+      title: "Banner Image",
+      name: "banner_image",
+      values: "",
+      class: "col-span-12",
+      require: true,
+    },
+    {
+      type: "select",
+      title: "Status",
+      name: "status",
+      values: 1,
+      class: "col-span-3",
+      require: false,
+      server: false,
+      list: [
+        {
+          key: "1",
+          value: "Visable",
+        },
+        {
+          key: "0",
+          value: "Hide",
+        },
+      ],
+    },
+  ],
+  social: [
+    {
+      type: "text",
+      title: "Social Media Name",
+      name: "social_media_name",
+      values: "",
+      class: "col-span-4",
+      require: true,
+    },
+    {
+      type: "text",
+      title: "Social Media Link",
+      name: "social_link",
+      values: "",
+      class: "col-span-4",
+      require: true,
+    },
+    {
+      type: "select",
+      title: "Status",
+      name: "status",
+      values: 1,
+      class: "col-span-4",
+      require: false,
+      server: false,
+      list: [
+        {
+          key: "1",
+          value: "Visable",
+        },
+        {
+          key: "0",
+          value: "Hide",
+        },
+      ],
+    },
+    {
+      type: "file",
+      title: "Social Media Image",
+      name: "social_img",
+      values: "",
+      class: "col-span-12",
+      require: true,
+    },
+  ],
+  settingPincode : [{
+    type: "number",
+    title: "Pincode",
+    name: "valid_pincode",
     values: "",
-    class: "col-span-12",
+    class: "col-span-4",
     require: true,
-  },{
+  } ,{
     type: "select",
     title: "Status",
     name: "status",
     values: 1,
+    class: "col-span-4",
+    require: false,
+    server: false,
+    list: [
+      {
+        key: "1",
+        value: "Visable",
+      },
+      {
+        key: "0",
+        value: "Hide",
+      },
+    ],
+  },
+  {
+    type: "hidden",
+    title: "Date",
+    name: "created_at",
+    values: new Date(),
     class: "col-span-3",
     require: false,
-    server: false,
-    list: [ {
-      key: "1",
-      value: "Visable",
-    }, {
-      key: "0",
-      value: "Hide",
-    }]
-  },],social : [{
-    type: "text",
-    title: "Social Media Name",
-    name: "social_media_name",
-    values: "",
-    class: "col-span-4",
-    require: true,
-  },{
-    type: "text",
-    title: "Social Media Link",
-    name: "social_link",
-    values: "",
-    class: "col-span-4",
-    require: true,
-  },{
-    type: "select",
-    title: "Status",
-    name: "status",
-    values: 1,
-    class: "col-span-4",
-    require: false,
-    server: false,
-    list: [ {
-      key: "1",
-      value: "Visable",
-    }, {
-      key: "0",
-      value: "Hide",
-    }]
-  },{
-    type: "file",
-    title: "Social Media Image",
-    name: "social_img",
-    values: "",
-    class: "col-span-12",
-    require: true,
-  }]
+  }],
+order :[{
+
+}]
 };

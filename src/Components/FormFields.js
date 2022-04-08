@@ -32,14 +32,17 @@ export default function FormFields(props) {
   const intilizeValue = {};
 
   useEffect(() => {
-    if (postDataLists.length || id === "new") {
+    if (postDataLists.length || id === "new" ) {
+      if(typeof(formFields) != 'undefined'){
       formFields.map(
         (item) =>
           (item.values =
             id === "new" ? item.values : postDataLists[0][item.name])
       );
       formFields.forEach((item) => (intilizeValue[item.name] = item.values));
-      setFormValues(intilizeValue);
+     
+          }
+          setFormValues(intilizeValue);
     }
   }, [postDataLists]);
 
@@ -60,7 +63,6 @@ export default function FormFields(props) {
       setFormValues({ ...formValues, [name.replace('File','')]: result.responceFileData.data['Uploaded Filenames'].toString() });
       props.setPageLoader(false);
     });
-
   };
 
   /*To save the form */
@@ -74,9 +76,9 @@ export default function FormFields(props) {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setIsSubmit(false);
         if(id === "new"){
-          PostApi(type, formValues, props , 'Record Add Successfully','form')
+          PostApi(type, formValues, props , 'Record Add Successfully','form');
         }else{
-          PutApi(type + "/" + id, formValues,props , 'Record Updated Sucessfully')
+          PutApi(type + "/" + id, formValues,props , 'Record Updated Sucessfully');
         }
     }
   }, [formErrors, formValues, isSubmit]);
@@ -110,7 +112,7 @@ export default function FormFields(props) {
                 </header>
                 <div className="px-4 py-5 bg-white sm:p-6">
                   <div className="sm:grid sm:grid-cols-12 gap-6">
-                    {formFields.map((e) =>
+                    {formFields ? formFields.map((e) =>
                       e.type !== "hidden" ? (
                         <div className={e.class} key={e.name}>
                           <label
@@ -215,7 +217,7 @@ export default function FormFields(props) {
                       ) : (
                         ""
                       )
-                    )}
+                    ):""}
                   </div>
                 </div>
                 <div className="px-3 py-2 bg-gray-50 text-right sm:px-6">

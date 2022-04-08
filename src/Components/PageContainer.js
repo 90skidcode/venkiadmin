@@ -8,7 +8,7 @@ function PageContainer() {
   if (!UserDetails) {
     navigate("/");
     return "";
-  } else UserDetails = JSON.parse(UserDetails)[0];
+  } else UserDetails = JSON.parse(UserDetails).Message[0];
 
   const menu = [
     {
@@ -63,6 +63,10 @@ function PageContainer() {
       text: "Social Media links",
       path: "/list/social",
       icon: "M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1",
+    },{
+      text: "Pincode",
+      path: "/list/settingPincode",
+      icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
     },
     {
       text: "Setting",
@@ -124,6 +128,7 @@ function PageContainer() {
         <div className="flex-1">
           <ul className="pt-2 pb-4 space-y-1 text-sm">
             {menu.map((m) => (
+             
               <li
                 key={Math.random().toString().slice(2)}
                 className="rounded-sm"

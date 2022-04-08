@@ -20,11 +20,10 @@ export default function LoginPage(props) {
     PostApi("userLogin",formValues,props, 'Login Sucessfully','login').then((e)=> {
       if(e.responcePostData.data[0] === "Invalid Login"){
         props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Invalid details'});
-
       }else{
         props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:'Login Successfully'});
         localStorage.setItem('details',JSON.stringify(e.responcePostData.data));
-        navigate("list/category");
+        navigate("dashboard");
       }
     })
   };
