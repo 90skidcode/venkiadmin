@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { NavLink, useParams } from "react-router-dom";
 import {
@@ -23,6 +23,28 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
 import GetApi from "../Services/GetApi";
+
+function alpDate(params) {
+  const d = new Date(params);
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "May",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+
+  return (
+    monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
+  );
+}
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -450,7 +472,7 @@ function TableList(props) {
                               </label>
                               <span className="mr-4 inline-block">:</span>
                               <div className="bg-gray-200 appearance-none  rounded w-48 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
-                                {orderDetails.data[0].created_at}
+                                {alpDate(orderDetails.data[0].created_at)}
                               </div>
                             </div>
                           </div>

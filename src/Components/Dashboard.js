@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import PageContainer from "./PageContainer";
 import { Line } from "react-chartjs-2";
 import {
@@ -10,8 +11,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 } from "chart.js";
+import GetApi from "../Services/GetApi";
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +39,7 @@ const data = {
     },
     {
       label: "Customer",
-      data: [39, 36, 55, 41,54, 75],
+      data: [39, 36, 55, 41, 54, 75],
       fill: true,
       backgroundColor: "rgba(37, 99, 235,0.2)",
       borderColor: "rgba(37, 99, 235,1)",
@@ -47,6 +49,21 @@ const data = {
 };
 
 function Dashboard() {
+  const [dashboardCard, setDashboardCard] = useState({
+    CustomerCard: 0,
+    OrderCard: 0,
+    CategoryCard: 0,
+    ProductCard: 0,
+    BranchCard: 0,
+    FranchiseCard: 0,
+  });
+
+  useEffect(() => {
+    GetApi("dashboardCard").then((e) => {
+      setDashboardCard(e.responceData.data);
+    });
+  }, []);
+
   return (
     <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
       <PageContainer></PageContainer>
@@ -77,9 +94,7 @@ function Dashboard() {
                   </div>
                   <div>
                     <div className="text-gray-400">Total Orders</div>
-                    <div className="text-2xl font-bold text-gray-900">
-                      985
-                    </div>
+                    <div className="text-2xl font-bold text-gray-900">{dashboardCard.OrderCard}</div>
                   </div>
                 </div>
               </div>
@@ -114,7 +129,7 @@ function Dashboard() {
                   <div>
                     <div className="text-gray-400">Net Revenue</div>
                     <div className="text-2xl font-bold text-gray-900">
-                    ₹7520.50
+                      ₹{dashboardCard.OrderCard}
                     </div>
                   </div>
                 </div>
@@ -149,7 +164,7 @@ function Dashboard() {
                   </div>
                   <div>
                     <div className="text-gray-400">Customers</div>
-                    <div className="text-2xl font-bold text-gray-900">1375</div>
+                    <div className="text-2xl font-bold text-gray-900">{dashboardCard.CustomerCard}</div>
                   </div>
                 </div>
               </div>
@@ -176,16 +191,14 @@ function Dashboard() {
                   </div>
                   <div>
                     <div className="text-gray-400">Branch</div>
-                    <div className="text-2xl font-bold text-gray-900">
-                      25
-                    </div>
+                    <div className="text-2xl font-bold text-gray-900">{dashboardCard.BranchCard}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="p-5 bg-white rounded shadow-sm w-4/4 m-3">
-            <Line data={data}  height={100}/>
+            <Line data={data} height={100} />
           </div>
         </div>
       </div>

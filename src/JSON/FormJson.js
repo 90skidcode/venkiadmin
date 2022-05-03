@@ -1,4 +1,3 @@
-
 export const FormFieldJson = {
   category: [
     {
@@ -3246,7 +3245,7 @@ export const FormFieldJson = {
       require: true,
     },
     {
-      type: "text",
+      type: "textarea",
       title: "Adout Us",
       name: "aboutus",
       values: "",
@@ -3352,41 +3351,111 @@ export const FormFieldJson = {
       require: true,
     },
   ],
-  settingPincode : [{
-    type: "number",
-    title: "Pincode",
-    name: "valid_pincode",
-    values: "",
-    class: "col-span-4",
-    require: true,
-  } ,{
-    type: "select",
-    title: "Status",
-    name: "status",
-    values: 1,
-    class: "col-span-4",
-    require: false,
-    server: false,
-    list: [
-      {
-        key: "1",
-        value: "Visable",
-      },
-      {
-        key: "0",
-        value: "Hide",
-      },
-    ],
-  },
-  {
-    type: "hidden",
-    title: "Date",
-    name: "created_at",
-    values: new Date(),
-    class: "col-span-3",
-    require: false,
-  }],
-order :[{
+  settingPincode: [
+    {
+      type: "number",
+      title: "Pincode",
+      name: "valid_pincode",
+      values: "",
+      class: "col-span-4",
+      require: true,
+    },
+    {
+      type: "select",
+      title: "Status",
+      name: "status",
+      values: 1,
+      class: "col-span-4",
+      require: false,
+      server: false,
+      list: [
+        {
+          key: "1",
+          value: "Visable",
+        },
+        {
+          key: "0",
+          value: "Hide",
+        },
+      ],
+    },
+    {
+      type: "hidden",
+      title: "Date",
+      name: "created_at",
+      values: new Date(),
+      class: "col-span-3",
+      require: false,
+    },
+  ],
+  order: [
+    {
+      type: "readonly",
+      title: "Order Id",
+      name: "order_id",
+      values: "",
+      class: "col-span-3",
+      require: true,
+    },
+    {
+      type: "readonly",
+      title: "Order Amount",
+      name: "order_amount",
+      values: "",
+      class: "col-span-3",
+      require: true,
+    },
+    {
+      type: "select",
+      title: "Delivery Status",
+      name: "delivery_status",
+      values: "",
+      class: "col-span-3",
+      require: true,
+      list: [
+        {
+          key: "1",
+          value: "Visable",
+        },
+        {
+          key: "0",
+          value: "Hide",
+        },
+      ],
+    },{
+      type: "select",
+      title: "Order Status",
+      name: "order_status",
+      values: "",
+      class: "col-span-3",
+      require: true,
+      list: [
+        {
+          key: "1",
+          value: "Visable",
+        },
+        {
+          key: "0",
+          value: "Hide",
+        },
+      ],
+    },
+    {
+      type: "readonly",
+      title: "Online Transaction Id",
+      name: "online_transaction_id",
+      values: "",
+      class: "col-span-3",
+      require: true,
+    },
 
-}]
+    {
+      type: "label",
+      title: "Order Placed",
+      name: "created_at",
+      values: "",
+      class: "col-span-3",
+      require: true,
+    },
+  ],
 };

@@ -10,6 +10,30 @@ import GetApi from "../Services/GetApi";
 import { FormFieldJson } from "../JSON/FormJson";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
+
+function alpDate(params) {
+  const d = new Date(params);
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "May",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+
+  return (
+    monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
+  );
+}
+
+
 export default function FormFields(props) {
   const { type, id } = useParams();
   var { responceData } = id !== "new" ? type === 'settings' ? FetchApi(type) :  FetchApi(type + "/" + id) : "";
@@ -132,6 +156,41 @@ export default function FormFields(props) {
                               autoComplete="off"
                               className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                             />
+                          ) : e.type === "readonly" ? (
+                            <input 
+                              key={e.name}
+                              type={"text"}
+                              name={e.name}
+                              id={e.name}
+                              value={formValues[e.name]}
+                              onChange={handlechange}
+                              autoComplete="off"
+                              readOnly
+                              className="mt-1 shadow-sm h-8 px-3 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                            />
+                           
+                          ) :e.type === "label" ? (
+                            <p 
+                              key={e.name}
+                              type={"text"}
+                              onChange={handlechange}
+                              autoComplete="off"
+                              readOnly
+                              className="mt-1 shadow-sm px-2 p-1 h-8 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                            > {alpDate(formValues[e.name])}</p>
+                           
+                          ) : e.type === "textarea" ? (
+                            <textarea cols="30" rows="10"
+                              key={e.name}
+                              type={e.type}
+                              name={e.name}
+                              id={e.name}
+                              value={formValues[e.name]}
+                              onChange={handlechange}
+                              autoComplete="off"
+                              className="mt-1 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                            />
+                           
                           ) : e.type === "select" ? (
                             
                             <select
