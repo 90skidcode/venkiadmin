@@ -11,11 +11,9 @@ try{
       responcePostData = response;
       if(page != 'login')
       props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:sucessMessage});
-
     })
     .catch((err) => {
       errorPost = err;
-      console.log("er");
       props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Please try again !!'});
     })
     .finally(() => {

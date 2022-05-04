@@ -13,10 +13,7 @@ function FetchApi(url) {
     axios
       .get(UtilsJson.baseUrl + url)
       .then((response) => {
-        console.log("🚀 ~ file: FetchApi.js ~ line 17 ~ .then ~ response", response)
         setData(response);
-        
-        
       })
       .catch((err) => {
         setError(err);

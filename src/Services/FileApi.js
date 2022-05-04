@@ -17,7 +17,6 @@ async function FileApi(data) {
     .post(UtilsJson.baseUrl + "upload", formData, config)
     .then((response) => {
       responceFileData = response;
-      //console.log(response);
     })
     .catch((err) => {
       errorFile = err;
