@@ -145,7 +145,6 @@ function TableList(props) {
         console.log(err);
       })
       .finally(() => {
-        console.log("End");
         ClosePopUp();
       });
   }
@@ -187,7 +186,6 @@ function TableList(props) {
     setOpen(true);
     GetApi(type + "/" + orderId).then((data) => {
       setorderDetails(data.responceData);
-      console.log(orderDetails);
     });
   }
 
@@ -225,7 +223,7 @@ function TableList(props) {
           </header>
 
           <table
-            className="w-full divide-y divide-gold-600 "
+            className="w-full divide-y divide-gold-600"
             {...getTableProps()}
           >
             <thead className="bg-slate-200 text-slate-500">
@@ -278,7 +276,7 @@ function TableList(props) {
                     })}
 
                     <td className="px-6 py-2 whitespace-nowrap text-slate-500 text-sm  flex flex-row">
-                     {console.log(type,row.original.order_id,row.original.id)}
+                     
                       <NavLink
                         key={Math.random()}
                         to={
@@ -594,9 +592,7 @@ function TableList(props) {
                             </p>
                           </div>
                         </div>
-                        {console.log(
-                          JSON.parse(orderDetails.data[0].product_id)
-                        )}
+                       
                         {JSON.parse(orderDetails.data[0].product_id).map(
                           (l) => (
                             <div

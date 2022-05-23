@@ -11,6 +11,20 @@ export const TableJsonHeaderList = {
       accessor: "category_description",
     },
     {
+      Header: "Visible",
+      accessor: "status",
+      Cell: ({ cell }) =>
+      cell.row.values.status == '1' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            Visable
+          </span>
+        ) : (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+            Deleted 
+          </span>
+        ),
+    },
+    {
       Header: "Image",
       accessor: "category_image",
       Cell: ({ cell }) => (
@@ -122,10 +136,54 @@ export const TableJsonHeaderList = {
     {
       Header: "Delivery Status",
       accessor: "delivery_status",
+      Cell: ({ cell }) =>
+      cell.row.values.delivery_status === '1' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            Delivery Accept
+          </span>
+        ) : cell.row.values.delivery_status === '2' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            Out for Delivery
+          </span>
+        ) : cell.row.values.delivery_status === '3' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            Deliver Sent
+          </span>
+        ): cell.row.values.delivery_status === '4' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+            Deliver Rejected by Customer
+          </span>
+        ): cell.row.values.delivery_status === '5' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+            Customer not in placed
+          </span>
+        ):"",
     },
     {
       Header: "Order Status",
       accessor: "order_status",
+      Cell: ({ cell }) =>
+      cell.row.values.order_status === '1' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            Order Placed
+          </span>
+        ) : cell.row.values.order_status === '2' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+             Payment Rejected
+          </span>
+        ) : cell.row.values.order_status === '3' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+           Order cancel by Customer
+          </span>
+        ): cell.row.values.order_status === '4' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+            Order cancel by Admin
+          </span>
+        ): cell.row.values.order_status === '5' ? (
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+            Order Deliver
+          </span>
+        ):"",
     }
   ],
   branch: [
@@ -179,16 +237,16 @@ export const TableJsonHeaderList = {
       Header: "Name",
       accessor: "product_name",
     },
-    {
-      Header: "Price",
-      accessor: "product_price",
-      Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_price).toFixed(2) )
-    },
-    {
-      Header: "Sale Price",
-      accessor: "product_sales_price",
-      Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_sales_price).toFixed(2))
-    },
+    // {
+    //   Header: "Price",
+    //   accessor: "product_price",
+    //   Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_price).toFixed(2) )
+    // },
+    // {
+    //   Header: "Sale Price",
+    //   accessor: "product_sales_price",
+    //   Cell: ({ cell }) => ( 'Rs.'+ Number(cell.row.values.product_sales_price).toFixed(2))
+    // },
     {
       Header: "Visible",
       accessor: "visible",
@@ -270,7 +328,8 @@ export const TableJsonHeaderList = {
           Hidden
         </span>
       ),
-  }],settingPincode:[ {
+  }],
+  settingPincode:[ {
     Header: "Pincode",
     accessor: "valid_pincode",
     className:

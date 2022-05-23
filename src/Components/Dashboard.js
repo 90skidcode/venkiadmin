@@ -67,11 +67,11 @@ function Dashboard() {
   return (
     <div className="h-screen overflow-auto bg-gold-100 grid grid-cols-12 bg-slate-200  outline-none">
       <PageContainer></PageContainer>
-      <div className="col-span-10">
+      <div className="col-span-12 sm:col-span-10">
         <div className="mt-5">
           <div>
-            <div className="flex justify-evenly">
-              <div className="p-5 bg-white rounded shadow-sm w-1/4 m-3">
+            <div className="flex flex-col sm:flex-row justify-evenly">
+              <div className="p-5 bg-white rounded shadow-sm  sm:w-1/4 m-3">
                 <div className="flex items-center space-x-4">
                   <div>
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-fuchsia-50 text-fuchsia-400">
@@ -98,7 +98,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="p-5 bg-white rounded shadow-sm w-1/4 m-3">
+              <div className="p-5 bg-white rounded shadow-sm sm:w-1/4 m-3">
                 <div className="flex items-center space-x-4">
                   <div>
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-cyan-50 text-cyan-400">
@@ -134,7 +134,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="p-5 bg-white rounded shadow-sm w-1/4 m-3">
+              <div className="p-5 bg-white rounded shadow-sm sm:w-1/4 m-3">
                 <div className="flex items-center space-x-4">
                   <div>
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-400">
@@ -168,7 +168,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="p-5 bg-white rounded shadow-sm w-1/4 m-3">
+              <div className="p-5 bg-white rounded shadow-sm sm:w-1/4 m-3">
                 <div className="flex items-center space-x-4">
                   <div>
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 text-emerald-400">

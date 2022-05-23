@@ -3126,23 +3126,7 @@ export const FormFieldJson = {
       require: true,
       server: true,
       list: "category",
-    },
-    {
-      type: "number",
-      title: "Price",
-      name: "product_price",
-      values: "",
-      class: "col-span-3",
-      require: false,
-    },
-    {
-      type: "number",
-      title: "Discount Price",
-      name: "product_sales_price",
-      values: "",
-      class: "col-span-3",
-      require: false,
-    },
+    },  
     {
       type: "number",
       title: "Quantity",
@@ -3191,7 +3175,15 @@ export const FormFieldJson = {
       title: "Description",
       name: "product_description",
       values: "",
-      class: "col-span-12",
+      class: "col-span-9",
+      require: true,
+    },
+    {
+      type: "table",
+      title: "Attributes",
+      name: "attribute_id",
+      values: "",
+      class: "col-span-6",
       require: true,
     },
     {
@@ -3199,8 +3191,16 @@ export const FormFieldJson = {
       title: "Product Image",
       name: "product_img",
       values: "",
-      class: "col-span-12",
+      class: "col-span-6",
       require: true,
+    },
+    {
+      type: "hidden",
+      title: "Tags",
+      name: "tags",
+      values: 1,
+      class: "col-span-3",
+      require: false,
     },
     {
       type: "hidden",
@@ -3415,12 +3415,24 @@ export const FormFieldJson = {
       list: [
         {
           key: "1",
-          value: "Visable",
+          value: "Delivery Accept",
         },
         {
-          key: "0",
-          value: "Hide",
+          key: "2",
+          value: "Out for Delivery",
         },
+        {
+          key: "3",
+          value: "Deliver Sent",
+        },
+        {
+          key: "4",
+          value: "Deliver Rejected by Customer",
+        },
+        {
+          key: "5",
+          value: "Customer not in Placed",
+        }
       ],
     },{
       type: "select",
@@ -3432,12 +3444,24 @@ export const FormFieldJson = {
       list: [
         {
           key: "1",
-          value: "Visable",
+          value: "Order Placed",
         },
         {
-          key: "0",
-          value: "Hide",
+          key: "2",
+          value: "Payment Rejected",
         },
+        {
+          key: "3",
+          value: "Order Cancel by Customer",
+        },
+        {
+          key: "4",
+          value: "Order Cancel by Admin",
+        },
+        {
+          key: "5",
+          value: "Order Deliver",
+        }
       ],
     },
     {
@@ -3457,5 +3481,5 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: true,
     },
-  ],
+  ]
 };
