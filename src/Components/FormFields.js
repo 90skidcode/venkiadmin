@@ -48,12 +48,15 @@ export default function FormFields(props) {
       : "";
 
   const [categoryList, setcategoryList] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     if (type === "product") {
       GetApi("category").then((e) => {
         setcategoryList(e.responceData.data);
-        console.log(formValues);
+      });
+      GetApi("tags").then((e) => {
+        setTags(e.responceData.data);
       });
     }
   }, []);
@@ -75,36 +78,52 @@ export default function FormFields(props) {
       }
       setFormValues(intilizeValue);
     }
-
-    if (typeof responceData?.data[0]?.attribute_id === "object") {
-      responceData.data[0].attribute_id.forEach((element) => {
-        attributes[element?.att_id] = element.price;
-        setFormAttributes(attributes);
-      });
-    } else {
-      setFormAttributes([
-        {
-          att_id: "ATT101",
-          price: "",
-        },
-        {
-          att_id: "ATT102",
-          price: "",
-        },
-        {
-          att_id: "ATT103",
-          price: "",
-        }
-      ]);
-      intilizeValue.attribute_id = formAttributes;
-      setFormValues(intilizeValue);
+    if (type == "product") {
+      if (typeof responceData?.data[0]?.attribute_id === "object") {
+        responceData.data[0].attribute_id.forEach((element) => {
+          attributes[element?.att_id] = element.price;
+          setFormAttributes(attributes);
+        });
+      } else {
+        setFormAttributes([
+          {
+            att_id: "ATT101",
+            price: "",
+          },
+          {
+            att_id: "ATT102",
+            price: "",
+          },
+          {
+            att_id: "ATT103",
+            price: "",
+          },
+        ]);
+        intilizeValue.attribute_id = formAttributes;
+        setFormValues(intilizeValue);
+      }
     }
   }, [postDataLists]);
 
   /* Set Values to form  */
   const handlechange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setFormValues({ ...formValues, [name]: value });
+  };
+
+  /* Set Values to form  */
+  const handlechangeSelectMultiple = (e) => {
+    const { name } = e.target;
+    const options = e.target.options;
+    var optionsValue = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        optionsValue.push(options[i].value);
+      }
+    }
+    console.log(optionsValue);
+    setFormValues({ ...formValues, [name]: optionsValue });
   };
 
   const UploadImage = (e) => {
@@ -265,18 +284,79 @@ export default function FormFields(props) {
                                   {}
                                   <option value="">Select from list</option>
                                   {e.server
-                                    ? categoryList.map((item) =>
-                                        item.status === 1 ? (
-                                          <option
-                                            key={Math.random()}
-                                            value={item.category_no}
-                                          >
-                                            {item.category_name}
-                                          </option>
-                                        ) : (
-                                          ""
+                                    ? e.list === "tags"
+                                      ? tags.map((item) =>
+                                          item.status === "1" ? (
+                                            <option
+                                              key={Math.random()}
+                                              value={item.tag_id}
+                                            >
+                                              {item.tag_name}
+                                            </option>
+                                          ) : (
+                                            ""
+                                          )
                                         )
-                                      )
+                                      : categoryList.map((item) =>
+                                          item.status === 1 ? (
+                                            <option
+                                              key={Math.random()}
+                                              value={item.category_no}
+                                            >
+                                              {item.category_name}
+                                            </option>
+                                          ) : (
+                                            ""
+                                          )
+                                        )
+                                    : e.list.map((item) => (
+                                        <option
+                                          key={Math.random()}
+                                          value={item.key}
+                                        >
+                                          {item.value}
+                                        </option>
+                                      ))}
+                                </select>
+                              ) : e.type === "selectMultiple" ? (
+                                <select
+                                  key={e.name}
+                                  name={e.name}
+                                  id={e.name}
+                                  value={formValues[e.name]}
+                                  onChange={handlechangeSelectMultiple}
+                                  autoComplete="off"
+                                  multiple
+                                  className="mt-1 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                                >
+                                  {}
+                                  <option value="">Select from list</option>
+                                  {e.server
+                                    ? e.list === "tags"
+                                      ? tags.map((item) =>
+                                          item.status === "1" ? (
+                                            <option
+                                              key={Math.random()}
+                                              value={item.tag_id}
+                                            >
+                                              {item.tag_name}
+                                            </option>
+                                          ) : (
+                                            ""
+                                          )
+                                        )
+                                      : categoryList.map((item) =>
+                                          item.status === 1 ? (
+                                            <option
+                                              key={Math.random()}
+                                              value={item.category_no}
+                                            >
+                                              {item.category_name}
+                                            </option>
+                                          ) : (
+                                            ""
+                                          )
+                                        )
                                     : e.list.map((item) => (
                                         <option
                                           key={Math.random()}
@@ -379,13 +459,13 @@ export default function FormFields(props) {
                                         <td className="border p-1">250 Gm</td>
                                         <td className="border p-1">
                                           <input
-                                            key={"ATT101"}
+                                            key={"ATT102"}
                                             type="number"
-                                            name={"ATT101"}
-                                            id={"ATT101"}
+                                            name={"ATT102"}
+                                            id={"ATT102"}
                                             onChange={updateAttribute}
                                             autoComplete="off"
-                                            value={formAttributes["ATT101"]}
+                                            value={formAttributes["ATT102"]}
                                             className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                                           />
                                         </td>
@@ -397,13 +477,13 @@ export default function FormFields(props) {
                                         <td className="border p-1">500 Gm</td>
                                         <td className="border p-1">
                                           <input
-                                            key={"ATT102"}
+                                            key={"ATT101"}
                                             type="number"
-                                            name={"ATT102"}
-                                            id={"ATT102"}
+                                            name={"ATT101"}
+                                            id={"ATT101"}
                                             onChange={updateAttribute}
                                             autoComplete="off"
-                                            value={formAttributes["ATT102"]}
+                                            value={formAttributes["ATT101"]}
                                             className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                                           />{" "}
                                         </td>

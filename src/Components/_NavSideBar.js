@@ -83,8 +83,7 @@ function NavSideBar() {
                 </svg>
                 <span className="ml-2 text-sm font-medium">{m.text}</span>
               </NavLink>
-            ))}
-           
+            ))}         
          
         </div>
       </div>

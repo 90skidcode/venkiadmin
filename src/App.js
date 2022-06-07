@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import PageContainer from "./Components/PageContainer";
 import Dashboard from "./Components/Dashboard";
 import TableList from "./Components/TableList";
 import FormFields from "./Components/FormFields";
 import LoginPage from "./Components/LoginPage";
-
+import { UtilsJson } from "./utils/UtilsJson";
 
 function App() {
   const [pageLoader, setPageLoader] = useState(false);
@@ -86,12 +86,12 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="/" element={<LoginPage  setPageLoader={setPageLoader}
+        <Route path={`${UtilsJson.routingUrl}/`}  element={<LoginPage  setPageLoader={setPageLoader}
               pageLoader={pageLoader}
               setMessage={setMessage}
               message={message}></LoginPage>}></Route>
         <Route
-          path="/table"
+          path={`${UtilsJson.routingUrl}/table`}
           element={
             <PageContainer
               setPageLoader={setPageLoader}
@@ -102,7 +102,7 @@ function App() {
           }
         />
         <Route
-          path="/list/:type"
+          path={`${UtilsJson.routingUrl}/list/:type`}
           element={
             <TableList
               setPageLoader={setPageLoader}
@@ -113,7 +113,7 @@ function App() {
           }
         />
         <Route
-          path="/list/:type/:id"
+          path={`${UtilsJson.routingUrl}/list/:type/:id`}
           element={
             <FormFields
               setPageLoader={setPageLoader}
@@ -123,7 +123,7 @@ function App() {
             />
           }
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path={`${UtilsJson.routingUrl}/dashboard`} element={<Dashboard />} />
         <Route path="*" element={<Dashboard />} />
       </Routes>
     </Router>

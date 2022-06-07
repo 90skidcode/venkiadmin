@@ -1597,7 +1597,7 @@ export const FormFieldJson = {
     },
     {
       type: "text",
-      title: "Image",
+      title: "Email",
       name: "customer_email",
       values: "",
       class: "col-span-12",
@@ -3171,11 +3171,21 @@ export const FormFieldJson = {
       require: true,
     },
     {
+      type: "selectMultiple",
+      title: "Tags",
+      name: "tags",
+      values: "",
+      class: "col-span-3",
+      require: true,
+      server: true,
+      list: "tags",
+    },  
+    {
       type: "text",
       title: "Description",
       name: "product_description",
       values: "",
-      class: "col-span-9",
+      class: "col-span-6",
       require: true,
     },
     {
@@ -3481,5 +3491,29 @@ export const FormFieldJson = {
       class: "col-span-3",
       require: true,
     },
-  ]
+  ],
+  tags:[ {
+    type: "text",
+    title: "Name",
+    name: "tag_name",
+    values: "",
+    class: "col-span-3",
+    require: true,
+  },
+  {
+    type: "hidden",
+    title: "Status",
+    name: "status",
+    values: 1,
+    class: "col-span-3",
+    require: false,
+  },
+  {
+    type: "hidden",
+    title: "Date",
+    name: "created_at",
+    values: new Date(),
+    class: "col-span-3",
+    require: false,
+  }]
 };

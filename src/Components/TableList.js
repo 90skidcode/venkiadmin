@@ -23,6 +23,7 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
 import GetApi from "../Services/GetApi";
+import { Audio } from  'react-loader-spinner'
 
 function alpDate(params) {
   const d = new Date(params);
@@ -149,12 +150,25 @@ function TableList(props) {
       });
   }
 
+  const ProductPrice = (product) => {
+    return product.product_info[0].attribute_id.find(
+      (o) => o.att_id === product.attribute_id
+    ).price;
+  };
+
+  const ProductWeight = (product) => {
+    return product.product_info[0].attribute_id.find(
+      (o) => o.att_id === product.attribute_id
+    ).att_value;
+  };
+
   function DeleteModal() {
     return (
       <div
         className={`min-w-screen h-screen animated fadeIn faster  fixed bg-slate-400 bg-opacity-75  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover ${ModalPopUpFlag}`}
       >
         <div className="flex">
+          <Audio></Audio>
           <div className="bg-white rounded-xl shadow-lg justify-center">
             <div className="text-center p-5 flex-auto justify-center">
               <h2 className="text-xl font-bold py-4 ">Are you sure?</h2>
@@ -212,7 +226,7 @@ function TableList(props) {
             <h2 className="text-gray-800 text-base font-semibold justify-items-start capitalize">
               All {type}
               <span className="text-base font-semibold text-slate-500">
-                {"  " + data.length}
+                {" - " + data.length}
               </span>
             </h2>
             <GlobalFilter
@@ -542,7 +556,7 @@ function TableList(props) {
                               placeholder="Your company address"
                               x-model="from.address"
                             >
-                              {"Salem "}
+                              {"379/5, Midland Street, Kalarampatti Mani Road, Salem - 636015."}
                             </div>
 
                             <div
@@ -552,7 +566,16 @@ function TableList(props) {
                               placeholder="Additional info"
                               x-model="from.extra"
                             >
-                              {" +91-99999-99999"}
+                              {"+91 96006 19991"}
+                            </div>
+                            <div
+                              className="mb-1 bg-gray-200 appearance-none text-xs rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                              id="inline-full-name"
+                              type="text"
+                              placeholder="Additional info"
+                              x-model="from.extra"
+                            >
+                              {"info@srivenkateshwaraclassic.com"}
                             </div>
                           </div>
                         </div>
@@ -563,10 +586,21 @@ function TableList(props) {
                               Description
                             </p>
                           </div>
+                         
 
                           <div className="px-1 w-20 text-right">
                             <p className="text-gray-800 uppercase tracking-wide text-sm font-bold">
                               Units
+                            </p>
+                          </div>
+                          <div className="px-1 w-32 text-right">
+                            <p className="leading-none">
+                              <span className="block uppercase tracking-wide text-sm font-bold text-gray-800">
+                                Variety
+                              </span>
+                              <span className="font-medium text-xs text-gray-500">
+                                (Kg / Pcs)
+                              </span>
                             </p>
                           </div>
 
@@ -610,13 +644,18 @@ function TableList(props) {
                                   {l.quantity}
                                 </p>
                               </div>
+                              <div className="px-1 w-20 text-right">
+                                <p className="text-gray-800 lowercase tracking-wide text-sm ">
+                                  {ProductWeight(l)}
+                                </p>
+                              </div>
 
                               <div className="px-1 w-32 text-right">
                                 <p className="leading-none">
                                   <span className="block uppercase tracking-wide text-sm  text-gray-800">
                                     Rs.{" "}
                                     {Number(
-                                      l.product_info[0].product_sales_price
+                                      ProductPrice(l)
                                     ).toFixed(2)}
                                   </span>
                                 </p>
@@ -626,9 +665,9 @@ function TableList(props) {
                                 <p className="leading-none">
                                   <span className="block uppercase tracking-wide text-sm  text-gray-800">
                                     Rs.
-                                    {(Number(l.quantity),
+                                    {(Number(l.quantity)*
                                     Number(
-                                      l.product_info[0].product_sales_price
+                                      ProductPrice(l)
                                     )).toFixed(2)}
                                   </span>
                                 </p>
@@ -638,7 +677,7 @@ function TableList(props) {
                         )}
 
                         <div className="py-2 ml-auto mt-5 w-full sm:w-2/4 lg:w-1/4">
-                          <div className="flex justify-between mb-3 hidden">
+                          <div className="justify-between mb-3 hidden">
                             <div className="text-gray-800 text-right flex-1">
                               Total incl. GST
                             </div>

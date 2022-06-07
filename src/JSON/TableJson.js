@@ -16,7 +16,7 @@ export const TableJsonHeaderList = {
       Cell: ({ cell }) =>
       cell.row.values.status == '1' ? (
           <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
-            Visable
+            Visible
           </span>
         ) : (
           <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -142,11 +142,11 @@ export const TableJsonHeaderList = {
             Delivery Accept
           </span>
         ) : cell.row.values.delivery_status === '2' ? (
-          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-yellow-600 rounded-full">
             Out for Delivery
           </span>
         ) : cell.row.values.delivery_status === '3' ? (
-          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-yellow-600 rounded-full">
             Deliver Sent
           </span>
         ): cell.row.values.delivery_status === '4' ? (
@@ -168,11 +168,11 @@ export const TableJsonHeaderList = {
             Order Placed
           </span>
         ) : cell.row.values.order_status === '2' ? (
-          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
              Payment Rejected
           </span>
         ) : cell.row.values.order_status === '3' ? (
-          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
            Order cancel by Customer
           </span>
         ): cell.row.values.order_status === '4' ? (
@@ -180,7 +180,7 @@ export const TableJsonHeaderList = {
             Order cancel by Admin
           </span>
         ): cell.row.values.order_status === '5' ? (
-          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+          <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
             Order Deliver
           </span>
         ):"",
@@ -253,7 +253,7 @@ export const TableJsonHeaderList = {
       Cell: ({ cell }) =>
       cell.row.values.visible === 'V' ? (
           <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
-            Visable
+            Visible
           </span>
         ) : (
           <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -278,6 +278,18 @@ export const TableJsonHeaderList = {
       accessor: "client_address",
     },
   ],
+  tags: [
+    {
+      Header: "Id",
+      accessor: "tag_id",
+      className:
+        "px-6 py-2 whitespace-nowrap text-slate-900 text-sm cursor-pointer",
+    },
+    {
+      Header: "Name",
+      accessor: "tag_name",
+    }
+  ],
   banner:[ {
     Header: "Image",
     accessor: "banner_image",
@@ -297,7 +309,7 @@ export const TableJsonHeaderList = {
     Cell: ({ cell }) =>
     cell.row.values.status ? (
         <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
-          Visable
+          Visible
         </span>
       ) : (
         <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -321,7 +333,7 @@ export const TableJsonHeaderList = {
     Cell: ({ cell }) =>
     cell.row.values.status ? (
         <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
-          Visable
+          Visible
         </span>
       ) : (
         <span className="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -348,5 +360,33 @@ export const TableJsonHeaderList = {
           Disable
         </span>
       ),
-  }]
+  }],coupons: [
+    {
+      Header: "Coupon Code",
+      accessor: "cc",
+      className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm"
+    },
+    {
+      Header: "Start Date",
+      accessor: "sd",
+      Cell: ({ cell }) =>cell.row.values.sd ? (
+        <h1>{((cell.row.values.sd))}</h1>
+      ) : ""
+    },
+    {
+      Header: "End Date",
+      accessor: "ed",
+      Cell: ({ cell }) =>cell.row.values.ed ? (
+        <h1>{((cell.row.values.ed))}</h1>
+      ) : ""
+    },
+    {
+      Header: "Amount",
+      accessor: "value",
+    },
+    {
+      Header: "Limit",
+      accessor: "limit",
+    }
+  ],
 };

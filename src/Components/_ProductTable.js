@@ -46,7 +46,6 @@ function GlobalFilter({
 
 function ProductTable() {
   const { responceData } = FetchApi("http://54.88.14.184:8000/category");
-
   const data = React.useMemo(
     () => (responceData ? responceData.data : []),
     [responceData]
