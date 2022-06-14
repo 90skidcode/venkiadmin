@@ -22,7 +22,7 @@ export const FormFieldJson = {
       name: "category_image",
       values: "",
       class: "col-span-12",
-      require: false,
+      require: true,
       multiple: false,
     },
     {

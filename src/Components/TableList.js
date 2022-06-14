@@ -23,7 +23,7 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
 import GetApi from "../Services/GetApi";
-import { Audio } from  'react-loader-spinner'
+import { Audio } from "react-loader-spinner";
 
 function alpDate(params) {
   const d = new Date(params);
@@ -39,12 +39,10 @@ function alpDate(params) {
     "Sep",
     "Oct",
     "Nov",
-    "Dec"
+    "Dec",
   ];
 
-  return (
-    monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
-  );
+  return monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
 }
 
 function GlobalFilter({
@@ -95,9 +93,7 @@ function TableList(props) {
     return responceData ? responceData.data : [];
   }
   const data = React.useMemo(() => setTableData(responceData), [responceData]);
-
   const TableColumn = TableJsonHeaderList[type];
-
   const columns = React.useMemo(
     () => (TableColumn ? TableColumn : []),
     [TableColumn]
@@ -168,7 +164,6 @@ function TableList(props) {
         className={`min-w-screen h-screen animated fadeIn faster  fixed bg-slate-400 bg-opacity-75  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover ${ModalPopUpFlag}`}
       >
         <div className="flex">
-          <Audio></Audio>
           <div className="bg-white rounded-xl shadow-lg justify-center">
             <div className="text-center p-5 flex-auto justify-center">
               <h2 className="text-xl font-bold py-4 ">Are you sure?</h2>
@@ -211,14 +206,14 @@ function TableList(props) {
           <div className="text-primary-900 text-3xl font-bold capitalize">
             <h1>{type} ✨ </h1>
           </div>
-          {type !== "settings" ? (
+          {type === "settings" || type === "order" ? (
+            ""
+          ) : (
             <NavLink key={Math.random()} to={"new"}>
               <button className="px-6  py-2.5  bg-blue-600  text-white  font-medium  text-xs  leading-tight  uppercase  shadow-md  hover:bg-blue-700 hover:shadow-lg  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0  active:bg-blue-800 active:shadow-lg  transition  duration-150  ease-in-out">
                 Add New
               </button>
             </NavLink>
-          ) : (
-            ""
           )}
         </div>
         <div className="bg-white shadow-lg rounded-sm border border-gray-200 mt-5 overflow-auto">
@@ -290,7 +285,6 @@ function TableList(props) {
                     })}
 
                     <td className="px-6 py-2 whitespace-nowrap text-slate-500 text-sm  flex flex-row">
-                     
                       <NavLink
                         key={Math.random()}
                         to={
@@ -299,7 +293,9 @@ function TableList(props) {
                               ? row.original.product_code
                               : ""
                             : type === "order"
-                            ? (typeof(row.original.order_id) != 'undefined') ? row.original.order_id : ""
+                            ? typeof row.original.order_id != "undefined"
+                              ? row.original.order_id
+                              : ""
                             : row.original.id
                         }
                       >
@@ -556,7 +552,9 @@ function TableList(props) {
                               placeholder="Your company address"
                               x-model="from.address"
                             >
-                              {"379/5, Midland Street, Kalarampatti Mani Road, Salem - 636015."}
+                              {
+                                "379/5, Midland Street, Kalarampatti Mani Road, Salem - 636015."
+                              }
                             </div>
 
                             <div
@@ -586,7 +584,6 @@ function TableList(props) {
                               Description
                             </p>
                           </div>
-                         
 
                           <div className="px-1 w-20 text-right">
                             <p className="text-gray-800 uppercase tracking-wide text-sm font-bold">
@@ -626,7 +623,7 @@ function TableList(props) {
                             </p>
                           </div>
                         </div>
-                       
+
                         {JSON.parse(orderDetails.data[0].product_id).map(
                           (l) => (
                             <div
@@ -653,10 +650,7 @@ function TableList(props) {
                               <div className="px-1 w-32 text-right">
                                 <p className="leading-none">
                                   <span className="block uppercase tracking-wide text-sm  text-gray-800">
-                                    Rs.{" "}
-                                    {Number(
-                                      ProductPrice(l)
-                                    ).toFixed(2)}
+                                    Rs. {Number(ProductPrice(l)).toFixed(2)}
                                   </span>
                                 </p>
                               </div>
@@ -665,10 +659,10 @@ function TableList(props) {
                                 <p className="leading-none">
                                   <span className="block uppercase tracking-wide text-sm  text-gray-800">
                                     Rs.
-                                    {(Number(l.quantity)*
-                                    Number(
-                                      ProductPrice(l)
-                                    )).toFixed(2)}
+                                    {(
+                                      Number(l.quantity) *
+                                      Number(ProductPrice(l))
+                                    ).toFixed(2)}
                                   </span>
                                 </p>
                               </div>
@@ -701,7 +695,7 @@ function TableList(props) {
                                   className="text-xl text-gray-800 font-bold"
                                   x-html="netTotal"
                                 >
-                                  ₹ 
+                                  ₹
                                   {Number(
                                     orderDetails.data[0].order_amount
                                   ).toFixed(2)}
