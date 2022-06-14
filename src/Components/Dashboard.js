@@ -129,7 +129,7 @@ function Dashboard() {
                   <div>
                     <div className="text-gray-400">Net Revenue</div>
                     <div className="text-2xl font-bold text-gray-900">
-                      ₹{dashboardCard.OrderCard}
+                      ₹{dashboardCard.RevenueCard}
                     </div>
                   </div>
                 </div>
