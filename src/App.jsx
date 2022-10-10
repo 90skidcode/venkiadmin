@@ -35,13 +35,13 @@ function App() {
           </div>
         </div>
       </div>
-      <div
-        className={`absolute top-0 right-0 ${
+      <div style={{'right':'10px','top':'10px'}}
+        className={`absolute top-10 right-10 ${
           message.visable ? "" : "hidden"
         }`}
       >
         <div
-          className={`${message.class}   m-2  right-0 shadow-lg  max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3`}
+          className={`${message.class}   m-2 shadow-lg  max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3`}
           id="static-example"
           role="alert"
           aria-live="assertive"

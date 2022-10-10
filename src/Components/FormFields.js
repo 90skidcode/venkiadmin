@@ -219,7 +219,7 @@ export default function FormFields(props) {
                                 htmlFor={e.name}
                                 className="block text-sm font-medium text-slate-600"
                               >
-                                {e.title}
+                                {e.title} <span className="text-red-500"> {e.require ? '*' : ''} </span>
                               </label>
                               {e.type === "text" ||
                               e.type === "number" ||
@@ -234,7 +234,18 @@ export default function FormFields(props) {
                                   autoComplete="off"
                                   className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
                                 />
-                              ) : e.type === "readonly" ? (
+                              ) : e.type === "date" ? (
+                                <input
+                                  key={e.name}
+                                  type={"date"}
+                                  name={e.name}
+                                  id={e.name}
+                                  value={formValues[e.name]}
+                                  onChange={handlechange}
+                                  autoComplete="off"                                  
+                                  className="mt-1 shadow-sm h-8 px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                                />
+                              ): e.type === "readonly" ? (
                                 <input
                                   key={e.name}
                                   type={"text"}
