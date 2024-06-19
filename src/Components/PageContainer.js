@@ -89,7 +89,7 @@ function PageContainer() {
     <div className="hidden sm:col-span-2 sm:flex flex-col h-full p-3  bg-primary-900 text-slate-200">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="w-full text-center">Venkateshwara</h2>
+          <h2 className="w-full text-center">SRM</h2>
           {/* <button className="p-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

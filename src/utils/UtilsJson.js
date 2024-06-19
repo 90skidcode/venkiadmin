@@ -1,3 +1,4 @@
 export const UtilsJson = {
-  baseUrl: "http://18.136.104.147:8000/"
+  baseUrl: "http://18.141.57.108:8000/",
+  routingUrl: ''
 };

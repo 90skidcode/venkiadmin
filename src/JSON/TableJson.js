@@ -110,12 +110,19 @@ export const TableJsonHeaderList = {
   ],
   order: [
     {
+      Header: "Order ID",
+      accessor: "order_id",
+      className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
+      Cell: ({ cell }) =>cell.row.values.order_id ? (
+        <h1>{cell.row.values.order_id}</h1>
+      ) : ""
+      
+    }, {
       Header: "Customer Name",
       accessor: "customer_id",
       className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
       Cell: ({ cell }) =>cell.row.values.delivery_address ? (
-
-        <h1>{(JSON.parse(cell.row.values.delivery_address).customer_addr_name)}</h1>
+        <h1>{(JSON.parse(cell?.row?.values?.delivery_address)?.customer_addr_name)}</h1> 
       ) : ""
     },
     {

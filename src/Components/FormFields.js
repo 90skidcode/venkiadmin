@@ -388,7 +388,7 @@ export default function FormFields(props) {
                                             src={`${
                                               UtilsJson.baseUrl
                                             }productimg/${formValues[e.name]}`}
-                                            alt="freepik"
+                                            alt={`${formValues[e.name]}`}
                                           />
                                         ) : (
                                           <p className="pointer-none text-gray-500 ">

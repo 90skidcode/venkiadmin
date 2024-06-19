@@ -15,7 +15,7 @@ function App() {
     visable: false,
     title: "Error",
     body: "Please try again",
-  });
+  });  
 
   return (
     <Router>
@@ -62,20 +62,7 @@ function App() {
                 aria-label="Close"
                 onClick={() => setMessage({ ...message, visable: false })}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+              x
               </button>
             </div>
           </div>
@@ -124,7 +111,10 @@ function App() {
           }
         />
         <Route path={`${UtilsJson.routingUrl}/dashboard`} element={<Dashboard />} />
-        <Route path="*" element={<Dashboard />} />
+        <Route path="*" element={<LoginPage  setPageLoader={setPageLoader}
+              pageLoader={pageLoader}
+              setMessage={setMessage}
+              message={message}></LoginPage>}></Route>
       </Routes>
     </Router>
   );
