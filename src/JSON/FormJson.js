@@ -1488,7 +1488,7 @@ export const FormFieldJson = {
     },
 
     {
-      type: "text",
+      type: "textarea",
       title: "Address",
       name: "franchise_address",
       values: "",
@@ -1546,7 +1546,7 @@ export const FormFieldJson = {
       require: true,
     },
     {
-      type: "text",
+      type: "textarea",
       title: "Address",
       name: "user_address",
       values: "",
@@ -3084,7 +3084,7 @@ export const FormFieldJson = {
     },
 
     {
-      type: "text",
+      type: "textarea",
       title: "Address",
       name: "branch_address",
       values: "",
@@ -3164,7 +3164,7 @@ export const FormFieldJson = {
       list: [
         {
           key: "V",
-          value: "Visable",
+          value: "visible",
         },
         {
           key: "H",
@@ -3257,7 +3257,7 @@ export const FormFieldJson = {
       require: true,
     },
     {
-      type: "text",
+      type: "textarea",
       title: "Address",
       name: "client_address",
       values: "",
@@ -3317,7 +3317,7 @@ export const FormFieldJson = {
       list: [
         {
           key: "1",
-          value: "Visable",
+          value: "visible",
         },
         {
           key: "0",
@@ -3354,7 +3354,7 @@ export const FormFieldJson = {
       list: [
         {
           key: "1",
-          value: "Visable",
+          value: "visible",
         },
         {
           key: "0",
@@ -3391,7 +3391,7 @@ export const FormFieldJson = {
       list: [
         {
           key: "1",
-          value: "Visable",
+          value: "visible",
         },
         {
           key: "0",
@@ -3408,7 +3408,7 @@ export const FormFieldJson = {
       require: false,
     },
   ],
-  order: [
+  orders: [
     {
       type: "readonly",
       title: "Order Id",

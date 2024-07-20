@@ -1,25 +1,27 @@
 import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
-async function PostApi(url,data,props,sucessMessage,page) {
+import toast from "react-hot-toast";
+async function PostApi(url, data, props, sucessMessage, page) {
   let responcePostData = [];
   let loadingPost = true;
   let errorPost = null;
-try{
-  await axios
-    .post(UtilsJson.baseUrl + url,data)
-    .then((response) => {
-      responcePostData = response;
-      if(page != 'login')
-      props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:sucessMessage});
-    })
-    .catch((err) => {
-      errorPost = err;
-      props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Please try again !!'});
-    })
-    .finally(() => {
-      loadingPost = false;
-    });
-  }catch(e){
+  try {
+    await axios
+      .post(UtilsJson.baseUrl + url, data)
+      .then((response) => {
+        responcePostData = response;
+        if (page != 'login') {
+          toast.success(sucessMessage, { position: "top-right" });
+        }
+      })
+      .catch((err) => {
+        errorPost = err;
+       toast.error('Please try again !!', { position: "top-right" })
+      })
+      .finally(() => {
+        loadingPost = false;
+      });
+  } catch (e) {
     errorPost = e;
   }
 

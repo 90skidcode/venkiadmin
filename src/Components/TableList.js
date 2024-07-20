@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { NavLink, useParams } from "react-router-dom";
 import {
@@ -23,7 +23,6 @@ import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
 import GetApi from "../Services/GetApi";
-import { Audio } from "react-loader-spinner";
 
 function alpDate(params) {
   const d = new Date(params);
@@ -78,6 +77,7 @@ function TableList(props) {
   const [orderDetails, setorderDetails] = useState([]);
   const cancelButtonRef = useRef(null);
   let { responceData } = FetchApi(type);
+
   const [ModalPopUpFlag, setModalPopUpFlag] = useState("hidden");
   const [deleteCurrent, setDeleteCurrent] = useState();
   function ClosePopUp() {
@@ -90,7 +90,7 @@ function TableList(props) {
     if (responceData) {
       props.setPageLoader(false);
     }
-    return responceData ? responceData.data : [];
+    return responceData?.data?.context || [];
   }
   const data = React.useMemo(() => setTableData(responceData), [responceData]);
   const TableColumn = TableJsonHeaderList[type];
@@ -132,7 +132,7 @@ function TableList(props) {
     const deleteId = deleteCurrent.original.id;
     axios
       .delete(UtilsJson.baseUrl + type + "/" + deleteId)
-      .then((response) => {
+      .then(() => {
         responceData.data.map((e) =>
           e.id === deleteId ? (e.categoryname = "update") : e
         );
@@ -206,7 +206,7 @@ function TableList(props) {
           <div className="text-primary-900 text-3xl font-bold capitalize">
             <h1>{type} ✨ </h1>
           </div>
-          {type === "settings" || type === "order" ? (
+          {type === "settings" || type === "orders" ? (
             ""
           ) : (
             <NavLink key={Math.random()} to={"new"}>
@@ -292,11 +292,11 @@ function TableList(props) {
                             ? row.original.product_code
                               ? row.original.product_code
                               : ""
-                            : type === "order"
-                            ? typeof row.original.order_id != "undefined"
-                              ? row.original.order_id
-                              : ""
-                            : row.original.id
+                            : type === "orders"
+                              ? typeof row.original.order_id != "undefined"
+                                ? row.original.order_id
+                                : ""
+                              : row.original.id
                         }
                       >
                         <PencilAltIcon
@@ -304,7 +304,7 @@ function TableList(props) {
                           className=" text-blue-500 cursor-pointer text-left mx-2"
                         ></PencilAltIcon>
                       </NavLink>
-                      {type === "order" ? (
+                      {type === "orders" ? (
                         <ClipboardCheckIcon
                           height={15}
                           className=" text-blue-500 cursor-pointer text-left mr-2"

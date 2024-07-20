@@ -7,15 +7,10 @@ import TableList from "./Components/TableList";
 import FormFields from "./Components/FormFields";
 import LoginPage from "./Components/LoginPage";
 import { UtilsJson } from "./utils/UtilsJson";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [pageLoader, setPageLoader] = useState(false);
-  const [message, setMessage] = useState({
-    class: "bg-blue-600",
-    visable: false,
-    title: "Error",
-    body: "Please try again",
-  });  
 
   return (
     <Router>
@@ -35,56 +30,17 @@ function App() {
           </div>
         </div>
       </div>
-      <div style={{'right':'10px','top':'10px'}}
-        className={`absolute top-10 right-10 ${
-          message.visable ? "" : "hidden"
-        }`}
-      >
-        <div
-          className={`${message.class}   m-2 shadow-lg  max-w-full text-sm pointer-events-auto bg-clip-padding rounded-lg block mb-3`}
-          id="static-example"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-          data-mdb-autohide="false"
-        >
-          <div
-            className={`${message.class}  flex justify-between items-center py-2 px-3 bg-clip-padding border-b border-slate-300 rounded-t-lg`}
-          >
-            <p className="font-bold text-white flex items-center">
-              {message.title}
-            </p>
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="btn-close text-xs btn-close-white box-content w-4 h-4 ml-2 text-white border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-white hover:opacity-75 hover:no-underline"
-                data-mdb-dismiss="toast"
-                aria-label="Close"
-                onClick={() => setMessage({ ...message, visable: false })}
-              >
-              x
-              </button>
-            </div>
-          </div>
-          <div className="p-3  rounded-b-lg break-words text-white">
-            {message.body}
-          </div>
-        </div>
-      </div>
-
+      <Toaster />
       <Routes>
-        <Route path={`${UtilsJson.routingUrl}/`}  element={<LoginPage  setPageLoader={setPageLoader}
-              pageLoader={pageLoader}
-              setMessage={setMessage}
-              message={message}></LoginPage>}></Route>
+        <Route path={`${UtilsJson.routingUrl}/`} element={<LoginPage setPageLoader={setPageLoader}
+          pageLoader={pageLoader}
+        ></LoginPage>}></Route>
         <Route
           path={`${UtilsJson.routingUrl}/table`}
           element={
             <PageContainer
               setPageLoader={setPageLoader}
               pageLoader={pageLoader}
-              setMessage={setMessage}
-              message={message}
             />
           }
         />
@@ -94,8 +50,6 @@ function App() {
             <TableList
               setPageLoader={setPageLoader}
               pageLoader={pageLoader}
-              setMessage={setMessage}
-              message={message}
             />
           }
         />
@@ -105,16 +59,13 @@ function App() {
             <FormFields
               setPageLoader={setPageLoader}
               pageLoader={pageLoader}
-              setMessage={setMessage}
-              message={message}
             />
           }
         />
         <Route path={`${UtilsJson.routingUrl}/dashboard`} element={<Dashboard />} />
-        <Route path="*" element={<LoginPage  setPageLoader={setPageLoader}
-              pageLoader={pageLoader}
-              setMessage={setMessage}
-              message={message}></LoginPage>}></Route>
+        <Route path="*" element={<LoginPage setPageLoader={setPageLoader}
+          pageLoader={pageLoader}
+        ></LoginPage>}></Route>
       </Routes>
     </Router>
   );

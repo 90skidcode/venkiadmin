@@ -10,6 +10,7 @@ import GetApi from "../Services/GetApi";
 import { FormFieldJson } from "../JSON/FormJson";
 import { UtilsJson } from "../utils/UtilsJson";
 import PageContainer from "./PageContainer";
+import { useNavigate } from "react-router-dom";
 
 function alpDate(params) {
   const d = new Date(params);
@@ -40,11 +41,12 @@ export default function FormFields(props) {
   const [formValues, setFormValues] = useState(intilizeValue);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const navigate = useNavigate();
   var { responceData } =
     id !== "new"
       ? type === "settings"
         ? FetchApi(type)
-        : FetchApi(type + "/" + id)
+        : FetchApi(type + "/fetch/" + id)
       : "";
 
   const [categoryList, setcategoryList] = useState([]);
@@ -62,17 +64,18 @@ export default function FormFields(props) {
   }, []);
 
   var postDataLists = React.useMemo(
-    () => (responceData ? responceData.data : []),
+    () => (responceData ? responceData.data.context : {}),
     [responceData]
   );
 
   useEffect(() => {
-    if (postDataLists.length || id === "new") {
+    // eslint-disable-next-line eqeqeq
+    if (postDataLists.id || id === "new") {
       if (typeof formFields != "undefined") {
         formFields.map(
           (item) =>
-            (item.values =
-              id === "new" ? item.values : postDataLists[0][item.name])
+          (item.values =
+            id === "new" ? item.values : postDataLists[item.name])
         );
         formFields.forEach((item) => (intilizeValue[item.name] = item.values));
       }
@@ -150,14 +153,17 @@ export default function FormFields(props) {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       setIsSubmit(false);
       if (id === "new") {
-        PostApi(type, formValues, props, "Record Add Successfully", "form");
+        PostApi(type, formValues, props, "Record Add Successfully", "form")
+        navigate(-1);
       } else {
+        let fvalues = { ...formValues, id: id }
         PutApi(
-          type + "/" + id,
-          formValues,
+          type + "/put",
+          fvalues,
           props,
           "Record Updated Sucessfully"
-        );
+        )
+        navigate(-1);
       }
     }
   }, [formErrors, formValues, isSubmit]);
@@ -213,317 +219,316 @@ export default function FormFields(props) {
                   <div className="sm:grid sm:grid-cols-12 gap-6">
                     {formFields
                       ? formFields.map((e) =>
-                          e.type !== "hidden" ? (
-                            <div className={e.class} key={e.name}>
-                              <label
-                                htmlFor={e.name}
-                                className="block text-sm font-medium text-slate-600"
-                              >
-                                {e.title} <span className="text-red-500"> {e.require ? '*' : ''} </span>
-                              </label>
-                              {e.type === "text" ||
+                        e.type !== "hidden" ? (
+                          <div className={e.class} key={e.name}>
+                            <label
+                              htmlFor={e.name}
+                              className="block text-sm font-medium text-slate-600"
+                            >
+                              {e.title} <span className="text-red-500"> {e.require ? '*' : ''} </span>
+                            </label>
+                            {e.type === "text" ||
                               e.type === "number" ||
                               e.type === "password" ? (
-                                <input
-                                  key={e.name}
-                                  type={e.type}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechange}
-                                  autoComplete="off"
-                                  className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                />
-                              ) : e.type === "date" ? (
-                                <input
-                                  key={e.name}
-                                  type={"date"}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechange}
-                                  autoComplete="off"                                  
-                                  className="mt-1 shadow-sm h-8 px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                />
-                              ): e.type === "readonly" ? (
-                                <input
-                                  key={e.name}
-                                  type={"text"}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechange}
-                                  autoComplete="off"
-                                  readOnly
-                                  className="mt-1 shadow-sm h-8 px-3 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                />
-                              ) : e.type === "label" ? (
-                                <p
-                                  key={e.name}
-                                  type={"text"}
-                                  onChange={handlechange}
-                                  autoComplete="off"
-                                  readOnly
-                                  className="mt-1 shadow-sm px-2 p-1 h-8 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                >
-                                  {" "}
-                                  {alpDate(formValues[e.name])}
-                                </p>
-                              ) : e.type === "textarea" ? (
-                                <textarea
-                                  cols="30"
-                                  rows="10"
-                                  key={e.name}
-                                  type={e.type}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechange}
-                                  autoComplete="off"
-                                  className="mt-1 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                />
-                              ) : e.type === "select" ? (
-                                <select
-                                  key={e.name}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechange}
-                                  autoComplete="off"
-                                  className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                >
-                                  {}
-                                  <option value="">Select from list</option>
-                                  {e.server
-                                    ? e.list === "tags"
-                                      ? tags.map((item) =>
-                                          item.status === "1" ? (
-                                            <option
-                                              key={Math.random()}
-                                              value={item.tag_id}
-                                            >
-                                              {item.tag_name}
-                                            </option>
-                                          ) : (
-                                            ""
-                                          )
-                                        )
-                                      : categoryList.map((item) =>
-                                          item.status === 1 ? (
-                                            <option
-                                              key={Math.random()}
-                                              value={item.category_no}
-                                            >
-                                              {item.category_name}
-                                            </option>
-                                          ) : (
-                                            ""
-                                          )
-                                        )
-                                    : e.list.map((item) => (
+                              <input
+                                key={e.name}
+                                type={e.type}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              />
+                            ) : e.type === "date" ? (
+                              <input
+                                key={e.name}
+                                type={"date"}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                className="mt-1 shadow-sm h-8 px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              />
+                            ) : e.type === "readonly" ? (
+                              <input
+                                key={e.name}
+                                type={"text"}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                readOnly
+                                className="mt-1 shadow-sm h-8 px-3 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              />
+                            ) : e.type === "label" ? (
+                              <p
+                                key={e.name}
+                                type={"text"}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                readOnly
+                                className="mt-1 shadow-sm px-2 p-1 h-8 bg-slate-200 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              >
+                                {" "}
+                                {alpDate(formValues[e.name])}
+                              </p>
+                            ) : e.type === "textarea" ? (
+                              <textarea
+                                cols="30"
+                                rows="10"
+                                key={e.name}
+                                type={e.type}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                className="mt-1 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              />
+                            ) : e.type === "select" ? (
+                              <select
+                                key={e.name}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechange}
+                                autoComplete="off"
+                                className="mt-1 h-8 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              >
+                                { }
+                                <option value="">Select from list</option>
+                                {e.server
+                                  ? e.list === "tags"
+                                    ? tags.map((item) =>
+                                      item.status === "1" ? (
                                         <option
                                           key={Math.random()}
-                                          value={item.key}
+                                          value={item.tag_id}
                                         >
-                                          {item.value}
+                                          {item.tag_name}
                                         </option>
-                                      ))}
-                                </select>
-                              ) : e.type === "selectMultiple" ? (
-                                <select
-                                  key={e.name}
-                                  name={e.name}
-                                  id={e.name}
-                                  value={formValues[e.name]}
-                                  onChange={handlechangeSelectMultiple}
-                                  autoComplete="off"
-                                  multiple
-                                  className="mt-1 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                >
-                                  {}
-                                  <option value="">Select from list</option>
-                                  {e.server
-                                    ? e.list === "tags"
-                                      ? tags.map((item) =>
-                                          item.status === "1" ? (
-                                            <option
-                                              key={Math.random()}
-                                              value={item.tag_id}
-                                            >
-                                              {item.tag_name}
-                                            </option>
-                                          ) : (
-                                            ""
-                                          )
-                                        )
-                                      : categoryList.map((item) =>
-                                          item.status === 1 ? (
-                                            <option
-                                              key={Math.random()}
-                                              value={item.category_no}
-                                            >
-                                              {item.category_name}
-                                            </option>
-                                          ) : (
-                                            ""
-                                          )
-                                        )
-                                    : e.list.map((item) => (
+                                      ) : (
+                                        ""
+                                      )
+                                    )
+                                    : categoryList.map((item) =>
+                                      item.status === 1 ? (
                                         <option
                                           key={Math.random()}
-                                          value={item.key}
+                                          value={item.category_no}
                                         >
-                                          {item.value}
+                                          {item.category_name}
                                         </option>
-                                      ))}
-                                </select>
-                              ) : e.type === "file" ? (
-                                <div className="flex items-center justify-center w-full mt-1">
-                                  <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
-                                    <div className="h-full w-full text-center flex flex-col items-center justify-center">
-                                      <div className="flex flex-auto max-h-48 mx-auto">
-                                        {formValues[e.name] ? (
-                                          <img
-                                            className="has-mask h-36 object-center"
-                                            src={`${
-                                              UtilsJson.baseUrl
+                                      ) : (
+                                        ""
+                                      )
+                                    )
+                                  : e.list.map((item) => (
+                                    <option
+                                      key={Math.random()}
+                                      value={item.key}
+                                    >
+                                      {item.value}
+                                    </option>
+                                  ))}
+                              </select>
+                            ) : e.type === "selectMultiple" ? (
+                              <select
+                                key={e.name}
+                                name={e.name}
+                                id={e.name}
+                                value={formValues[e.name]}
+                                onChange={handlechangeSelectMultiple}
+                                autoComplete="off"
+                                multiple
+                                className="mt-1 shadow-sm px-2 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                              >
+                                { }
+                                <option value="">Select from list</option>
+                                {e.server
+                                  ? e.list === "tags"
+                                    ? tags.map((item) =>
+                                      item.status === "1" ? (
+                                        <option
+                                          key={Math.random()}
+                                          value={item.tag_id}
+                                        >
+                                          {item.tag_name}
+                                        </option>
+                                      ) : (
+                                        ""
+                                      )
+                                    )
+                                    : categoryList.map((item) =>
+                                      item.status === 1 ? (
+                                        <option
+                                          key={Math.random()}
+                                          value={item.category_no}
+                                        >
+                                          {item.category_name}
+                                        </option>
+                                      ) : (
+                                        ""
+                                      )
+                                    )
+                                  : e.list.map((item) => (
+                                    <option
+                                      key={Math.random()}
+                                      value={item.key}
+                                    >
+                                      {item.value}
+                                    </option>
+                                  ))}
+                              </select>
+                            ) : e.type === "file" ? (
+                              <div className="flex items-center justify-center w-full mt-1">
+                                <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                                  <div className="h-full w-full text-center flex flex-col items-center justify-center">
+                                    <div className="flex flex-auto max-h-48 mx-auto">
+                                      {formValues[e.name] ? (
+                                        <img
+                                          className="has-mask h-36 object-center"
+                                          src={`${UtilsJson.baseUrl
                                             }productimg/${formValues[e.name]}`}
-                                            alt={`${formValues[e.name]}`}
-                                          />
-                                        ) : (
-                                          <p className="pointer-none text-gray-500 ">
-                                            <span className="text-sm">
-                                              Drag and drop
-                                            </span>{" "}
-                                            files here <br /> or{" "}
-                                            <di
-                                              href=""
-                                              id=""
-                                              className="text-blue-600 hover:underline"
-                                            >
-                                              select a file
-                                            </di>{" "}
-                                            from your computer
-                                          </p>
-                                        )}
-                                      </div>
+                                          alt={`${formValues[e.name]}`}
+                                        />
+                                      ) : (
+                                        <p className="pointer-none text-gray-500 ">
+                                          <span className="text-sm">
+                                            Drag and drop
+                                          </span>{" "}
+                                          files here <br /> or{" "}
+                                          <di
+                                            href=""
+                                            id=""
+                                            className="text-blue-600 hover:underline"
+                                          >
+                                            select a file
+                                          </di>{" "}
+                                          from your computer
+                                        </p>
+                                      )}
                                     </div>
-                                    <input
-                                      key={e.name + "File"}
-                                      type="file"
-                                      name={e.name + "File"}
-                                      id={e.name}
-                                      autoComplete="off"
-                                      className="hidden"
-                                      onChange={UploadImage}
-                                    />
-                                    <input
-                                      key={e.name}
-                                      type="text"
-                                      name={e.name}
-                                      value={formValues[e.name]}
-                                      autoComplete="off"
-                                      className="hidden"
-                                    />
-                                  </label>
-                                </div>
-                              ) : e.type === "table" ? (
-                                <>
-                                  <table className="table-auto text-black border mt-1 text-sm w-full">
-                                    <thead>
-                                      <tr>
-                                        <th className="border p-2 font-medium">
-                                          S.No
-                                        </th>
-                                        <th className="border p-2 font-medium">
-                                          Type
-                                        </th>
-                                        <th className="border p-2 font-medium">
-                                          Price
-                                        </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr className="border">
-                                        <td className="border p-1 text-center">
-                                          1
-                                        </td>
-                                        <td className="border p-1">1 Pcs</td>
-                                        <td className="border p-1">
-                                          {" "}
-                                          <input
-                                            key={"ATT103"}
-                                            type="number"
-                                            name={"ATT103"}
-                                            id={"ATT103"}
-                                            onChange={updateAttribute}
-                                            value={formAttributes["ATT103"]}
-                                            autoComplete="off"
-                                            className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                          />{" "}
-                                        </td>
-                                      </tr>
-                                      <tr className="border">
-                                        <td className="border p-1 text-center">
-                                          2
-                                        </td>
-                                        <td className="border p-1">250 Gm</td>
-                                        <td className="border p-1">
-                                          <input
-                                            key={"ATT102"}
-                                            type="number"
-                                            name={"ATT102"}
-                                            id={"ATT102"}
-                                            onChange={updateAttribute}
-                                            autoComplete="off"
-                                            value={formAttributes["ATT102"]}
-                                            className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                          />
-                                        </td>
-                                      </tr>
-                                      <tr className="border">
-                                        <td className="border p-1 text-center">
-                                          3
-                                        </td>
-                                        <td className="border p-1">500 Gm</td>
-                                        <td className="border p-1">
-                                          <input
-                                            key={"ATT101"}
-                                            type="number"
-                                            name={"ATT101"}
-                                            id={"ATT101"}
-                                            onChange={updateAttribute}
-                                            autoComplete="off"
-                                            value={formAttributes["ATT101"]}
-                                            className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
-                                          />{" "}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                                  </div>
+                                  <input
+                                    key={e.name + "File"}
+                                    type="file"
+                                    name={e.name + "File"}
+                                    id={e.name}
+                                    autoComplete="off"
+                                    className="hidden"
+                                    onChange={UploadImage}
+                                  />
                                   <input
                                     key={e.name}
                                     type="text"
                                     name={e.name}
-                                    value={JSON.stringify(formValues[e.name])}
+                                    value={formValues[e.name]}
                                     autoComplete="off"
                                     className="hidden"
                                   />
-                                </>
-                              ) : (
-                                ""
-                              )}
-                              <small
-                                id="emailHelp"
-                                className="block mt-1 text-xs text-red-600"
-                              >
-                                {formErrors[e.name]}
-                              </small>
-                            </div>
-                          ) : (
-                            ""
-                          )
+                                </label>
+                              </div>
+                            ) : e.type === "table" ? (
+                              <>
+                                <table className="table-auto text-black border mt-1 text-sm w-full">
+                                  <thead>
+                                    <tr>
+                                      <th className="border p-2 font-medium">
+                                        S.No
+                                      </th>
+                                      <th className="border p-2 font-medium">
+                                        Type
+                                      </th>
+                                      <th className="border p-2 font-medium">
+                                        Price
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr className="border">
+                                      <td className="border p-1 text-center">
+                                        1
+                                      </td>
+                                      <td className="border p-1">1 Pcs</td>
+                                      <td className="border p-1">
+                                        {" "}
+                                        <input
+                                          key={"ATT103"}
+                                          type="number"
+                                          name={"ATT103"}
+                                          id={"ATT103"}
+                                          onChange={updateAttribute}
+                                          value={formAttributes["ATT103"]}
+                                          autoComplete="off"
+                                          className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                                        />{" "}
+                                      </td>
+                                    </tr>
+                                    <tr className="border">
+                                      <td className="border p-1 text-center">
+                                        2
+                                      </td>
+                                      <td className="border p-1">250 Gm</td>
+                                      <td className="border p-1">
+                                        <input
+                                          key={"ATT102"}
+                                          type="number"
+                                          name={"ATT102"}
+                                          id={"ATT102"}
+                                          onChange={updateAttribute}
+                                          autoComplete="off"
+                                          value={formAttributes["ATT102"]}
+                                          className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr className="border">
+                                      <td className="border p-1 text-center">
+                                        3
+                                      </td>
+                                      <td className="border p-1">500 Gm</td>
+                                      <td className="border p-1">
+                                        <input
+                                          key={"ATT101"}
+                                          type="number"
+                                          name={"ATT101"}
+                                          id={"ATT101"}
+                                          onChange={updateAttribute}
+                                          autoComplete="off"
+                                          value={formAttributes["ATT101"]}
+                                          className="mt-1 h-8 shadow-sm px-3 rounded-sm text-slate-600 sm:text-sm border border-slate-300 hover:border-slate-500 outline-none w-full "
+                                        />{" "}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <input
+                                  key={e.name}
+                                  type="text"
+                                  name={e.name}
+                                  value={JSON.stringify(formValues[e.name])}
+                                  autoComplete="off"
+                                  className="hidden"
+                                />
+                              </>
+                            ) : (
+                              ""
+                            )}
+                            <small
+                              id="emailHelp"
+                              className="block mt-1 text-xs text-red-600"
+                            >
+                              {formErrors[e.name]}
+                            </small>
+                          </div>
+                        ) : (
+                          ""
                         )
+                      )
                       : ""}
                   </div>
                 </div>

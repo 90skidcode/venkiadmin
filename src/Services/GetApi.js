@@ -6,6 +6,7 @@ async function GetApi(url) {
   await axios
       .get(UtilsJson.baseUrl + url)
       .then((response) => {
+        console.log(response);
         responceData = response;
       })
       .catch((err) => {

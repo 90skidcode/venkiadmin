@@ -1,42 +1,48 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import PostApi from "../Services/PostApi";
-import { UtilsJson } from "../utils/UtilsJson";
 import { useNavigate } from "react-router-dom";
+import shLogo from "../asst/img/short-logo.png";
+import toast from "react-hot-toast";
 export default function LoginPage(props) {
   localStorage.clear();
-  const intilizeValue = {};
-  const [formValues, setFormValues] = useState(intilizeValue);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  /* Set Values to form  */
-  const handlechange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
+
 
   /*To save the form */
-  const login = (e) => {
-    e.preventDefault();
-    PostApi("userLogin",formValues,props, 'Login Sucessfully','login').then((e)=> {
-      if(e.responcePostData.data[0] === "Invalid Login"){
-        props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Invalid details'});
-      }else{
-        props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:'Login Successfully'});
-        localStorage.setItem('details',JSON.stringify(e.responcePostData.data));
+  const login = (event) => {
+    event.preventDefault();
+    var intilizeValue = {
+      "user_name": event.target[1].value,
+      "login_password": event.target[2].value
+    }
+    setLoading(true);
+    PostApi("userLogin", intilizeValue, props, 'Login Sucessfully', 'login').then((e) => {
+      if (e.responcePostData.data.status === "200") {
+        toast.success('Login Successfully', { position: "top-right" })
+        localStorage.setItem('details', JSON.stringify(e.responcePostData.data));
         navigate("dashboard");
+        setLoading(false);
+      } else {
+        toast.error('Invalid details', { position: "top-right" })
+        setLoading(false);
+
       }
+    }).catch((error) => {
+      setLoading(false);
     })
   };
 
   return (
     <div className="flex justify-center">
-      <div className="min-h-full w-full h-screen bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full p-10 bg-slate-100 space-y-8 rounded-sm">
+      <div className="min-h-full w-full h-screen bg-gradient-to-r from-violet-800 to-fuchsia-400 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-lg w-full p-10 bg-slate-100 space-y-8 rounded-sm">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
-              src={UtilsJson.baseUrl + "productimg/"+"SVS.png"}
-              alt="Workflow"
+              className="mx-auto h-16 w-auto rounded-lg"
+              src={shLogo}
+              alt="Sarva Logo"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign in to your account
@@ -61,8 +67,8 @@ export default function LoginPage(props) {
                   autoComplete="current-password"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="VKT100"
-                  onBlur={handlechange}
+                  placeholder="User Name"
+
                 />
               </div>
               <div>
@@ -74,7 +80,7 @@ export default function LoginPage(props) {
                   name="login_password"
                   type="password"
                   autoComplete="current-password"
-                  onBlur={handlechange}
+
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="********"
@@ -85,15 +91,17 @@ export default function LoginPage(props) {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? ' disabled:bg-gray-400 disabled:cursor-not-allowed' : ""}`} disabled={loading}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-blue-500 group-hover:text-blue-400"
-                    aria-hidden="true"
-                  />
+                  {!loading ?
+                    <LockClosedIcon
+                      className="h-5 w-5 text-blue-500 group-hover:text-blue-400"
+                      aria-hidden="true"
+                    />
+                    : ""}
                 </span>
-                Sign in
+                {!loading ? 'Sign in' : "Loading ..."}
               </button>
             </div>
           </form>

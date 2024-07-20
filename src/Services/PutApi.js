@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UtilsJson } from "../utils/UtilsJson";
-
+import toast from "react-hot-toast";
 function PutApi(url,data,props, successMessage) {
   let responcePostData = [];
   let loadingPost = false;
@@ -12,11 +12,11 @@ function PutApi(url,data,props, successMessage) {
     .put(UtilsJson.baseUrl + url,data)
     .then((response) => {
       responcePostData = response;
-      props.setMessage({class:'bg-green-600',visable:true, title:'Success', body:successMessage});
+      toast.success(successMessage, { position: "top-right" });
     })
     .catch((err) => {
       errorPost = err;
-      props.setMessage({class:'bg-red-600',visable:true, title:'Error', body:'Please try again !!'});
+      toast.error('Please try again !!', { position: "top-right" })
     })
     .finally(() => {
       loadingPost = false;

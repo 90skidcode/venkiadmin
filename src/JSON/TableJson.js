@@ -61,7 +61,7 @@ export const TableJsonHeaderList = {
   user: [
     {
       Header: "Code",
-      accessor: "user_id",
+      accessor: "id",
       className: "px-6 py-2 whitespace-nowrap text-slate-900 text-sm",
     },
     {
@@ -108,7 +108,7 @@ export const TableJsonHeaderList = {
       accessor: "customer_email",
     },
   ],
-  order: [
+  orders: [
     {
       Header: "Order ID",
       accessor: "order_id",
@@ -196,7 +196,7 @@ export const TableJsonHeaderList = {
   branch: [
     {
       Header: "ID",
-      accessor: "branch_no",
+      accessor: "id",
       className:
         "px-6 py-2 whitespace-nowrap text-slate-900 text-sm cursor-pointer",
     },
@@ -288,7 +288,7 @@ export const TableJsonHeaderList = {
   tags: [
     {
       Header: "Id",
-      accessor: "tag_id",
+      accessor: "id",
       className:
         "px-6 py-2 whitespace-nowrap text-slate-900 text-sm cursor-pointer",
     },
